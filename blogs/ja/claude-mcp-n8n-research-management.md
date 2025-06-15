@@ -146,7 +146,7 @@ n8nを使っているので、「保存前にGeminiに文章をレビューさ�
 
 AIによりできることの範囲が拡大したおかげで最近は時間が足りなくなってきていたので、このようにAIで効率化ができることには助かっています。
 
-## 参考文献
+---
 
 [^1]: [Introducing Claude 4 | Anthropic](https://www.anthropic.com/news/claude-4)
 

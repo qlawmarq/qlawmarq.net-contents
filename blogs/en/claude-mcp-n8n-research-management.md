@@ -9,6 +9,7 @@ tags:
   - Desktop
 publishedAt: 2025-06-15T12:00:00.000Z
 ---
+
 ## Introduction
 
 As of June 2025, my information gathering methods have undergone a significant transformation. While Google search was once my primary tool, I now use **Claude Desktop** almost daily for research. This may not yet be a widely adopted approach, but AI/LLM-based information search has become part of my daily routine.
@@ -150,7 +151,7 @@ By leveraging MCP and n8n in this way, efficient knowledge collection and aggreg
 
 With AI expanding the scope of what's possible, I've been running short on time lately, so being able to achieve efficiency through AI like this is very helpful.
 
-## References
+---
 
 [^1]: [Introducing Claude 4 | Anthropic](https://www.anthropic.com/news/claude-4)
 
