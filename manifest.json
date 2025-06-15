@@ -1,0 +1,24 @@
+{
+  "blogs/en": [
+    "ai-driven-development-approach-may-2025.md",
+    "ai-growth-and-software-dev-future-in-2024.md",
+    "built-blog-with-nextjs-and-payload.md",
+    "japanese-engineer-experience-australian-company.md",
+    "legacy-system-migration-lessons.md",
+    "what-is-the-best-way-to-start-building-react-apps-in-2023.md"
+  ],
+  "blogs/ja": [
+    "ai-driven-development-approach-may-2025.md",
+    "ai-growth-and-software-dev-future-in-2024.md",
+    "built-blog-with-nextjs-and-payload.md",
+    "japanese-engineer-experience-australian-company.md",
+    "legacy-system-migration-lessons.md",
+    "what-is-the-best-way-to-start-building-react-apps-in-2023.md"
+  ],
+  "pages/en": [
+    "about.md"
+  ],
+  "pages/ja": [
+    "about.md"
+  ]
+}
