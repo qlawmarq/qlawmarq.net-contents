@@ -109,28 +109,6 @@ Since MCP has only been available for about six months, knowledge about connecti
 
 MCP specifications are rapidly evolving, with migration planned from the current HTTP+SSE method to the more efficient Streamable HTTP method[^6]. This change may eliminate the need for adapter tools like mcp-remote in the future.
 
-Configuration example (claude_desktop_config.json):
-
-```json
-{
-  "mcpServers": {
-    "n8n-knowledge-server": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://n8n.your-server.net/mcp/knowledge-mcp-server/sse",
-        "--header",
-        "Authorization: Bearer ${AUTH_TOKEN}"
-      ],
-      "env": {
-        "AUTH_TOKEN": "your-authentication-token"
-      }
-    }
-  }
-}
-```
-
 ## Actual Operation and Results
 
 In fact, **this article itself serves as a proof of concept for the MCP server I built**. For article writing, I utilized the following knowledge that I had previously researched and saved using Claude Desktop:

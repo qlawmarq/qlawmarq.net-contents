@@ -104,28 +104,6 @@ MCP自体がまだ発表されてから半年程度であり、Claude Desktopか
 
 MCPの仕様は急速に発展しており、現在のHTTP+SSE方式から、より効率的なStreamable HTTP方式への移行が予定されています[^6]。この変化により、将来的にはmcp-remoteのようなアダプターツールが不要になる可能性があります。
 
-設定例（claude_desktop_config.json）：
-
-```json
-{
-  "mcpServers": {
-    "n8n-knowledge-server": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://n8n.your-server.net/mcp/knowledge-mcp-server/sse",
-        "--header",
-        "Authorization: Bearer ${AUTH_TOKEN}"
-      ],
-      "env": {
-        "AUTH_TOKEN": "your-authentication-token"
-      }
-    }
-  }
-}
-```
-
 ## 実際の運用と効果
 
 実は、**この記事自体が、構築したMCPサーバーの実証実験を兼ねています**。記事執筆にあたって、事前にClaude Desktopで調査し保存していた以下のナレッジを活用しました：

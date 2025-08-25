@@ -1,26 +1,187 @@
 {
   "blogs/en": [
-    "ai-driven-development-approach-may-2025.md",
-    "ai-growth-and-software-dev-future-in-2024.md",
-    "built-blog-with-nextjs-and-payload.md",
-    "claude-mcp-n8n-research-management.md",
-    "japanese-engineer-experience-australian-company.md",
-    "legacy-system-migration-lessons.md",
-    "what-is-the-best-way-to-start-building-react-apps-in-2023.md"
+    {
+      "filename": "ai-driven-development-approach-may-2025.md",
+      "slug": "ai-driven-development-approach-may-2025",
+      "title": "My Approach to AI-Driven Development as of May 2025",
+      "description": "Sharing practical insights on AI-driven development as of May 2025. Based on experience writing over 100,000 lines of code using tools like Cursor, Claude, and MCP, this article explains effective collaboration with AI, techniques for quality improvement, and future perspectives.",
+      "publishedAt": "2025-05-13T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "ai-growth-and-software-dev-future-in-2024.md",
+      "slug": "ai-growth-and-software-dev-future-in-2024",
+      "title": "Looking Back on 2024 — The Exponential Growth of AI and the Future of Software Development",
+      "description": "A reflection on 2024 examining the exponential growth of AI and its transformative impact on the future of software development.",
+      "publishedAt": "2024-12-29T15:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "built-blog-with-nextjs-and-payload.md",
+      "slug": "built-blog-with-nextjs-and-payload",
+      "title": "Built my blog with Next.js App Router and Payload CMS",
+      "description": "I would like to share how I build my blog using Next.js App Router and Payload CMS.",
+      "publishedAt": "2024-01-25T15:00:00.000Z",
+      "tags": [
+        "Next.js",
+        "Payload CMS",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "claude-mcp-n8n-research-management.md",
+      "slug": "claude-mcp-n8n-research-management",
+      "title": "Building an MCP Server with n8n to Seamlessly Save Research from Claude Desktop to GitHub",
+      "description": "Efficient research with Claude Desktop created a new challenge: reusing knowledge from chat history. Learn how I built a seamless knowledge preservation workflow using MCP and n8n to automatically save research results to GitHub with structured metadata and searchable format.",
+      "publishedAt": "2025-06-15T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "MCP",
+        "n8n",
+        "Claude",
+        "Desktop"
+      ]
+    },
+    {
+      "filename": "japanese-engineer-experience-australian-company.md",
+      "slug": "japanese-engineer-experience-australian-company",
+      "title": "Cultural Differences Experienced by a Japanese Engineer in an Australian Company",
+      "description": "As a Japanese software engineer, I would like to share insights on working at an Australian IT company, cultural differences, work-life balance, and personal growth in a global environment.",
+      "publishedAt": "2024-10-04T15:00:00.000Z",
+      "tags": [
+        "Work Experience",
+        "Cultural Differences",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "legacy-system-migration-lessons.md",
+      "slug": "legacy-system-migration-lessons",
+      "title": "Lessons Learned from a Legacy System Migration Project",
+      "description": "A software engineer shares real challenges and practical solutions encountered during a legacy system migration project, including TCP socket issues, endianness problems, and the limitations of AI assistance.",
+      "publishedAt": "2025-03-24T15:00:00.000Z",
+      "tags": [
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "what-is-the-best-way-to-start-building-react-apps-in-2023.md",
+      "slug": "what-is-the-best-way-to-start-building-react-apps-in-2023",
+      "title": "What is The best way to start building React apps in 2023",
+      "description": "My opinion on what is the best way to build a React app in 2023, in comparison with Next.js, Remix, CRA, Vite, etc.",
+      "publishedAt": "2023-12-10T15:00:00.000Z",
+      "tags": [
+        "React",
+        "Software Development"
+      ]
+    }
   ],
   "blogs/ja": [
-    "ai-driven-development-approach-may-2025.md",
-    "ai-growth-and-software-dev-future-in-2024.md",
-    "built-blog-with-nextjs-and-payload.md",
-    "claude-mcp-n8n-research-management.md",
-    "japanese-engineer-experience-australian-company.md",
-    "legacy-system-migration-lessons.md",
-    "what-is-the-best-way-to-start-building-react-apps-in-2023.md"
+    {
+      "filename": "ai-driven-development-approach-may-2025.md",
+      "slug": "ai-driven-development-approach-may-2025",
+      "title": "2025年5月時点における私のAI駆動開発の活用方法",
+      "description": "2025年5月現在、AI駆動開発に関する実践的な知見を共有します。Cursor、Claude、MCPなどのツールを活用し、10万行以上のコードを効率的に開発した経験から、AIとの効果的な協働方法、成果物の品質向上テクニック、そして今後の展望について解説します。",
+      "publishedAt": "2025-05-13T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "ai-growth-and-software-dev-future-in-2024.md",
+      "slug": "ai-growth-and-software-dev-future-in-2024",
+      "title": "2024年の振り返り——AIの指数関数的な発達とソフトウェア開発の未来",
+      "description": "2024年におけるAIの指数関数的な発達を振り返り、それがもたらすソフトウェア開発の変革と未来への展望についての考察。",
+      "publishedAt": "2024-12-29T15:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "built-blog-with-nextjs-and-payload.md",
+      "slug": "built-blog-with-nextjs-and-payload",
+      "title": "Next.js App RouterとPayload CMS を使ってブログを構築した",
+      "description": "Next.jsのApp RouterとPayload CMSを使ってどのように本ブログを構築しているかについて紹介したいと思います。",
+      "publishedAt": "2024-01-25T15:00:00.000Z",
+      "tags": [
+        "Next.js",
+        "Payload CMS",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "claude-mcp-n8n-research-management.md",
+      "slug": "claude-mcp-n8n-research-management",
+      "title": "Claude Desktopで調査した内容をシームレスにGitHubに保存するMCPサーバーをn8nで構築した話",
+      "description": "Claude Desktopでの効率的な調査が可能になったものの、チャット履歴からの知識再利用が課題だったので、MCPとn8nを活用してシームレスな知識保存ワークフローを構築し、GitHubに構造化された形で調査結果を管理できるシステムを実装しました。",
+      "publishedAt": "2025-06-15T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "MCP",
+        "n8n",
+        "Claude Desktop"
+      ]
+    },
+    {
+      "filename": "japanese-engineer-experience-australian-company.md",
+      "slug": "japanese-engineer-experience-australian-company",
+      "title": "オーストラリアのローカルなIT企業での経験：日本人エンジニアが感じた文化の違い",
+      "description": "オーストラリアのローカルなIT企業で働いた日本人ソフトウェアエンジニアとして、文化の違い、ワーク・ライフ・バランス、グローバルな職場環境について感じたことを書いていきます。",
+      "publishedAt": "2024-10-04T15:00:00.000Z",
+      "tags": [
+        "Work Experience",
+        "Cultural Differences",
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "legacy-system-migration-lessons.md",
+      "slug": "legacy-system-migration-lessons",
+      "title": "レガシーシステム移行プロジェクトから学んだ教訓",
+      "description": "レガシーシステム移行プロジェクトで直面したTCP通信の問題、エンディアン違いによるトラブルなど、実体験に基づく教訓を書いておきます",
+      "publishedAt": "2025-03-24T15:00:00.000Z",
+      "tags": [
+        "Software Development"
+      ]
+    },
+    {
+      "filename": "what-is-the-best-way-to-start-building-react-apps-in-2023.md",
+      "slug": "what-is-the-best-way-to-start-building-react-apps-in-2023",
+      "title": "2023 年におけるReactを使った開発の最適なライブラリ・フレームワークは何か",
+      "description": "Next.js・Remix・CRA・Vite・Gatsbyなどの比較も交え、2023 年時点でのReactを使った開発の最適なライブラリ・フレームワークは何かについての私見。",
+      "publishedAt": "2023-12-10T15:00:00.000Z",
+      "tags": [
+        "React",
+        "Software Development"
+      ]
+    }
   ],
   "pages/en": [
-    "about.md"
+    {
+      "filename": "about.md",
+      "slug": "about",
+      "title": "About Me",
+      "description": "About this website and its owner.",
+      "publishedAt": "2023-12-30T15:00:00.000Z",
+      "tags": []
+    }
   ],
   "pages/ja": [
-    "about.md"
+    {
+      "filename": "about.md",
+      "slug": "about",
+      "title": "About",
+      "description": "当ウェブサイトの著者について",
+      "publishedAt": "2023-12-30T15:00:00.000Z",
+      "tags": []
+    }
   ]
 }
