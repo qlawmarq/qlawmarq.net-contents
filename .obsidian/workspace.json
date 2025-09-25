@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "blogs/en/claude-mcp-n8n-research-management.md",
+                "file": "blogs/ja/Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "claude-mcp-n8n-research-management"
+              "title": "Untitled"
             }
           }
         ]
@@ -44,7 +44,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "ファイルエクスプローラ"
+              "title": "Files"
             }
           },
           {
@@ -61,7 +61,7 @@
                 "sortOrder": "alphabetical"
               },
               "icon": "lucide-search",
-              "title": "検索"
+              "title": "Search"
             }
           },
           {
@@ -74,7 +74,8 @@
               "title": "ブックマーク"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -170,26 +171,28 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:クイックスイッチャーを開く": false,
-      "graph:グラフビューを開く": false,
-      "canvas:新規キャンバスを作成": false,
-      "daily-notes:今日のデイリーノートを開く": false,
-      "templates:テンプレートを挿入": false,
-      "command-palette:コマンドパレットを開く": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
       "obsidian-git:Open Git source control": false
     }
   },
   "active": "d0f96c0f9b9082c9",
   "lastOpenFiles": [
-    "blogs/ja/claude-mcp-n8n-research-management.md",
+    "blogs/ja/legacy-system-migration-lessons.md",
+    "blogs/ja/Untitled.md",
     "blogs/en/claude-mcp-n8n-research-management.md",
+    "blogs/ja/claude-mcp-n8n-research-management.md",
     "blogs/ja/built-blog-with-nextjs-and-payload.md",
     "blogs/ja/ai-driven-development-approach-may-2025.md",
     "blogs/ja/タイトル「Claude Desktopで調査した内容をシームレスにGitHubに保存するためのMCPサーバーをn8nで作った」（仮）.md",
     "blogs/ja/claude-mcp-n8n-knowledge-management.md",
     "blogs/ja/ai-growth-and-software-dev-future-in-2024.md",
     "blogs/ja/japanese-engineer-experience-australian-company.md",
-    "blogs/ja/legacy-system-migration-lessons.md",
     "blogs/ja/what-is-the-best-way-to-start-building-react-apps-in-2023.md",
     "pages/en/about.md"
   ]
