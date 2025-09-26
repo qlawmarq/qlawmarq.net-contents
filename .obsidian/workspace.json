@@ -11,14 +11,10 @@
             "id": "d0f96c0f9b9082c9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "blogs/ja/Untitled.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "New tab"
             }
           }
         ]
