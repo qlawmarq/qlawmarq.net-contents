@@ -86,41 +86,45 @@ Traditional software development organizations generally take the following form
 
 ```mermaid
 graph TD;
-    Manager-->ManagerA;
-    Manager-->ManagerB;
-    ManagerA-->DeveloperA;
-    ManagerA-->DeveloperB;
-    ManagerA-->DeveloperC;
-    ManagerB-->DeveloperD;
-    ManagerB-->DeveloperE;
-    ManagerB-->DeveloperF;
+    Executive-->ProjectManagerA[Project Manager A];
+    Executive-->ProjectManagerB[Project Manager B];
+    ProjectManagerA-->DeveloperA[Developer A];
+    ProjectManagerA-->DeveloperB[Developer B];
+    ProjectManagerA-->DeveloperC[Developer C];
+    ProjectManagerB-->DeveloperD[Developer D];
+    ProjectManagerB-->DeveloperE[Developer E];
+    ProjectManagerB-->DeveloperF[Developer F];
 ```
 
-Project managers assign development tasks to respective developers.
+Project managers allocate development tasks to their respective team members.
 
-As of this year, I believe we've already reached a level where workforce reduction is possible as shown below. (However, in more conservative business environments—such as those common in Japan—the tendency has been toward underutilization of existing staff rather than outright workforce reduction, due to precedent-focused decision-making and risk avoidance.)
+I believe it wouldn't be surprising if next year we see organizational structures like the following:
 
 ```mermaid
 graph TD;
-    Manager-->ManagerA;
-    Manager-->ManagerB;
-    ManagerA-->DeveloperA;
-    ManagerB-->DeveloperB;
+    Executive-->ProjectManagerA[Project Manager A];
+    Executive-->ProjectManagerB[Project Manager B];
+    ProjectManagerA-->DeveloperA[Developer A];
+    ProjectManagerB-->DeveloperB[Developer B];
 ```
 
-In the future, I believe workforce reduction could progress to the following form:
+To be frank, I believe AI performance has already reached a level where workforce reduction is feasible—to the extent of having individuals handle triple their previous workload—as of this year. (However, in Japan's case, due to the tendency to prioritize precedent and avoid risks, what I've observed is more people becoming underutilized rather than actual workforce reduction taking place.)
+
+In the future, I believe workforce reduction could progress to the following organizational structure:
 
 ```mermaid
 graph TD;
-    Manager-->ProjectAManagerDeveloper[Project A Manager/Developer];
-    Manager-->ProjectBManagerDeveloper[Project B Manager/Developer];
+    Executive-->ProjectALead[Project A Lead];
+    Executive-->ProjectBLead[Project B Lead];
 ```
 
-Of course, this scale of workforce reduction isn't possible immediately, and it may take different forms for reasons like avoiding over-dependence on individuals. However, I think it's a fact that AI is making workforce reduction possible starting from the bottom tier in the IT industry.
+When workforce reduction progresses to this level, developers will need to evolve from "task executors" into "business stakeholders," and it's evident that they'll require fundamentally different skill sets than those valued today.
 
-On the other hand, the demand for IT specialists for promoting digitalization that's currently popular in Japan (precisely the industry I belong to) feels like it will remain for a while. Especially now, many companies want to start utilizing AI, and AI won't eliminate the demand for IT and digitalization itself.
+Of course, this scale of workforce reduction isn't immediately feasible, and alternative structures may emerge for reasons such as avoiding over-dependence on individual contributors. However, I believe it's undeniable that AI is enabling workforce reduction, starting from the junior levels within the IT industry.
 
-However, even if demand exists, workforce reduction is possible. The pie that was large before may remain large, but it wouldn't be surprising if a future comes where it's more efficiently monopolized by fewer people. Even in fields that previously required many people, I think the reasons for bringing in external personnel will become thinner day by day.
+On the other hand, the demand for IT specialists to drive digital transformation—currently popular in Japan and precisely the industry I belong to—seems likely to persist for some time. Particularly now, many companies are eager to begin utilizing AI, and AI won't eliminate the fundamental demand for IT and digitalization initiatives.
+
+However, even with sustained demand, workforce reduction remains possible. While the overall market may remain substantial, it wouldn't be surprising if we see a future where this value is more efficiently captured by fewer professionals. Even in domains that previously required large teams, I believe the justifications for engaging external personnel will continue to diminish.
 
 ## What Value Remains for Software Developers?
 
