@@ -1,5 +1,5 @@
 ---
-title: The Era of AI-Generated Code: Fundamental Changes Facing Software Developers
+title: "The Era of AI-Generated Code: Fundamental Changes Facing Software Developers"
 description: My personal thoughts on how software developers' value will change in September 2025, when AI-powered code generation has become widely adopted.
 tags: ["AI", "Software Development"]
 publishedAt: 2025-09-25T15:00:00.000Z

@@ -1,6 +1,17 @@
 {
   "blogs/en": [
     {
+      "filename": "ai-code-generation-software-developer-transformation-2025.md",
+      "slug": "ai-code-generation-software-developer-transformation-2025",
+      "title": "The Era of AI-Generated Code: Fundamental Changes Facing Software Developers",
+      "description": "My personal thoughts on how software developers' value will change in September 2025, when AI-powered code generation has become widely adopted.",
+      "publishedAt": "2025-09-25T15:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
+    {
       "filename": "ai-driven-development-approach-may-2025.md",
       "slug": "ai-driven-development-approach-may-2025",
       "title": "My Approach to AI-Driven Development as of May 2025",
@@ -83,6 +94,17 @@
     }
   ],
   "blogs/ja": [
+    {
+      "filename": "ai-code-generation-software-developer-transformation-2025.md",
+      "slug": "ai-code-generation-software-developer-transformation-2025",
+      "title": "コードをAIで生成する時代：ソフトウェア開発者が直面する根本的変化",
+      "description": "AIによるコード生成が大きく普及した2025年9月、ソフトウェア開発者の価値はどう変化するのかに対する私見。",
+      "publishedAt": "2025-09-25T15:00:00.000Z",
+      "tags": [
+        "AI",
+        "Software Development"
+      ]
+    },
     {
       "filename": "ai-driven-development-approach-may-2025.md",
       "slug": "ai-driven-development-approach-may-2025",
