@@ -3,6 +3,7 @@ title: "Lessons Learned from a Legacy System Migration Project"
 description: "A software engineer shares real challenges and practical solutions encountered during a legacy system migration project, including TCP socket issues, endianness problems, and the limitations of AI assistance."
 tags: ["Software Development"]
 publishedAt: "2025-03-24T15:00:00.000Z"
+updatedAt: "2025-03-24T15:00:00.000Z"
 ---
 
 ## Introduction

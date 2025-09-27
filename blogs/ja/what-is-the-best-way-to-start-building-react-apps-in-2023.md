@@ -3,6 +3,7 @@ title: "2023 年におけるReactを使った開発の最適なライブラリ�
 description: "Next.js・Remix・CRA・Vite・Gatsbyなどの比較も交え、2023 年時点でのReactを使った開発の最適なライブラリ・フレームワークは何かについての私見。"
 tags: ["React", "Software Development"]
 publishedAt: "2023-12-10T15:00:00.000Z"
+updatedAt: "2023-12-10T15:00:00.000Z"
 ---
 
 2023年時点でWebフロントエンド開発のためのライブラリやフレームワークは、ReactやVue、Angular、Svelteなど複数存在します。それに加えて、ReactというライブラリだけでもNext.jsやRemix、CRA、ViteなどのReactを元にしたライブラリが存在しています。（ここでは便宜上、すべてライブラリと呼ぶことにします。）

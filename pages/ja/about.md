@@ -2,6 +2,7 @@
 title: "About"
 description: "当ウェブサイトの著者について"
 publishedAt: "2023-12-30T15:00:00.000Z"
+updatedAt: "2023-12-30T15:00:00.000Z"
 ---
 
 ## About Me

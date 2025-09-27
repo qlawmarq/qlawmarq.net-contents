@@ -3,6 +3,7 @@ title: "What is The best way to start building React apps in 2023"
 description: "My opinion on what is the best way to build a React app in 2023, in comparison with Next.js, Remix, CRA, Vite, etc."
 tags: ["React", "Software Development"]
 publishedAt: "2023-12-10T15:00:00.000Z"
+updatedAt: "2023-12-10T15:00:00.000Z"
 ---
 
 By 2023, there are multiple libraries and frameworks for front-end web development, including React, Vue, Angular, and Svelte. Furthermore, even with just React as a library, there are libraries derived from React such as Next.js, Remix, CRA, and Vite. (In this article, for convenience, I will refer to all of these simply as “libraries.”)

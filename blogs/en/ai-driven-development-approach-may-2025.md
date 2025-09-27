@@ -3,6 +3,7 @@ title: "My Approach to AI-Driven Development as of May 2025"
 description: "Sharing practical insights on AI-driven development as of May 2025. Based on experience writing over 100,000 lines of code using tools like Cursor, Claude, and MCP, this article explains effective collaboration with AI, techniques for quality improvement, and future perspectives."
 tags: ["AI", "Software Development"]
 publishedAt: "2025-05-13T12:00:00.000Z"
+updatedAt: "2025-05-13T12:00:00.000Z"
 ---
 
 ## Introduction

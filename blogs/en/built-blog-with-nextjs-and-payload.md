@@ -3,6 +3,7 @@ title: "Built my blog with Next.js App Router and Payload CMS"
 description: "I would like to share how I build my blog using Next.js App Router and Payload CMS."
 tags: ["Next.js", "Payload CMS", "Software Development"]
 publishedAt: "2024-01-25T15:00:00.000Z"
+updatedAt: "2024-01-25T15:00:00.000Z"
 ---
 
 Once you have some understanding of web and front-end development techniques, you may want to create your own website. That is what I did. I worked as an application developer and ran my own website.

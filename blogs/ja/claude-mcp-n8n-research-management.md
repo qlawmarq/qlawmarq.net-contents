@@ -3,6 +3,7 @@ title: "Claude Desktopで調査した内容をシームレスにGitHubに保存�
 description: "Claude Desktopでの効率的な調査が可能になったものの、チャット履歴からの知識再利用が課題だったので、MCPとn8nを活用してシームレスな知識保存ワークフローを構築し、GitHubに構造化された形で調査結果を管理できるシステムを実装しました。"
 tags: ["AI", "MCP", "n8n", "Claude Desktop"]
 publishedAt: "2025-06-15T12:00:00.000Z"
+updatedAt: "2025-06-15T12:00:00.000Z"
 ---
 
 ## はじめに

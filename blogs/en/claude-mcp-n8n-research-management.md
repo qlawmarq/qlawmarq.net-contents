@@ -8,6 +8,7 @@ tags:
   - Claude
   - Desktop
 publishedAt: 2025-06-15T12:00:00.000Z
+updatedAt: 2025-06-15T12:00:00.000Z
 ---
 
 ## Introduction

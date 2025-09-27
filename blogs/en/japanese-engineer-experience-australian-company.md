@@ -3,6 +3,7 @@ title: "Cultural Differences Experienced by a Japanese Engineer in an Australian
 description: "As a Japanese software engineer, I would like to share insights on working at an Australian IT company, cultural differences, work-life balance, and personal growth in a global environment."
 tags: ["Work Experience", "Cultural Differences", "Software Development"]
 publishedAt: "2024-10-04T15:00:00.000Z"
+updatedAt: "2024-10-04T15:00:00.000Z"
 ---
 
 I was born in Japan and worked for nearly three years at an Australian company until around the middle of this year. The company was a local IT consulting firm headquartered on the Gold Coast in Queensland, with local Australian clients, and I was paid in Australian dollars. I was the only Japanese employee, so naturally all communication was in English. For people from other English-speaking countries, this may not be an unusual experience. But as someone from Japan—which is very much an island nation—it was quite a unique experience for me, so I decided to write about how I ended up working there and the differences I noticed compared to Japan.

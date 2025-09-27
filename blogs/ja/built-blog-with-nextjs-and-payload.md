@@ -3,6 +3,7 @@ title: "Next.js App RouterとPayload CMS を使ってブログを構築した"
 description: "Next.jsのApp RouterとPayload CMSを使ってどのように本ブログを構築しているかについて紹介したいと思います。"
 tags: ["Next.js", "Payload CMS", "Software Development"]
 publishedAt: "2024-01-25T15:00:00.000Z"
+updatedAt: "2024-01-25T15:00:00.000Z"
 ---
 
 Web やフロントエンド開発の技術についてある程度分かると自分で Web サイトを作りたくなるものです。かく言う自分もアプリ開発の仕事をしながら、実際に自分で Web サイトも運営してきました。

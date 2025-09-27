@@ -3,6 +3,7 @@ title: コードをAIで生成する時代：ソフトウェア開発者が直�
 description: AIによるコード生成が大きく普及した2025年9月、ソフトウェア開発者の価値はどう変化するのかに対する私見。
 tags: ["AI", "Software Development"]
 publishedAt: 2025-09-25T15:00:00.000Z
+updatedAt: 2025-09-25T15:00:00.000Z
 ---
 
 ## はじめに

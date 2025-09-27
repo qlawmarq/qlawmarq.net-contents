@@ -3,6 +3,7 @@ title: "Looking Back on 2024 — The Exponential Growth of AI and the Future of 
 description: "A reflection on 2024 examining the exponential growth of AI and its transformative impact on the future of software development."
 tags: ["AI", "Software Development"]
 publishedAt: "2024-12-29T15:00:00.000Z"
+updatedAt: "2024-12-29T15:00:00.000Z"
 ---
 
 Before I knew it, 2024 was drawing to a close. This year brought many lessons and prompted various transformations in my life, but even more than that, it heralded a major turning point driven by the exponential growth of AI.
