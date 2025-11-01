@@ -65,6 +65,17 @@
       ]
     },
     {
+      "filename": "iphone-macos-remote-development-tmux-tailscale-mosh.md",
+      "slug": "iphone-macos-remote-development-tmux-tailscale-mosh",
+      "title": "Remote Development from iPhone to macOS in the AI Era: Tailscale + Termius + Mosh + tmux",
+      "description": "A comprehensive guide to securely accessing macOS from your iPhone while on the go and enabling comfortable development.",
+      "publishedAt": "2025-11-01T12:00:00.000Z",
+      "updatedAt": "2025-11-01T12:00:00.000Z",
+      "tags": [
+        "Software Development"
+      ]
+    },
+    {
       "filename": "japanese-engineer-experience-australian-company.md",
       "slug": "japanese-engineer-experience-australian-company",
       "title": "Cultural Differences Experienced by a Japanese Engineer in an Australian Company",
@@ -163,6 +174,17 @@
         "MCP",
         "n8n",
         "Claude Desktop"
+      ]
+    },
+    {
+      "filename": "iphone-macos-remote-development-tmux-tailscale-mosh.md",
+      "slug": "iphone-macos-remote-development-tmux-tailscale-mosh",
+      "title": "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Termius + Mosh + tmux",
+      "description": "外出先のiPhoneからmacOSに安全にリモートアクセスし、快適な開発作業を可能にする環境構築ガイドです。",
+      "publishedAt": "2025-11-01T12:00:00.000Z",
+      "updatedAt": "2025-11-01T12:00:00.000Z",
+      "tags": [
+        "Software Development"
       ]
     },
     {
