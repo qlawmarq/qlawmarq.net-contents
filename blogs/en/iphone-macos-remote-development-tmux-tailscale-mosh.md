@@ -26,11 +26,16 @@ This guide shows how to achieve the following by combining Tailscale and Mosh:
 
 ### macOS Side
 
-- Homebrew (package manager for macOS)
+- [Homebrew (package manager for macOS)](https://brew.sh/)
+  - [Tailscale](https://tailscale.com/)
+  - [Mosh](https://mosh.org/)
+  - [tmux](https://github.com/tmux/tmux/wiki)
 
 ### iPhone/iOS Device
 
 - App Store access
+  - [Tailscale](https://tailscale.com/)
+  - [Termius](https://termius.com/)
 
 ### Tools Used
 

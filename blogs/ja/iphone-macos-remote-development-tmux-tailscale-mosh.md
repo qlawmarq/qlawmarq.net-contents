@@ -26,11 +26,16 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 
 ### macOS 側
 
-- Homebrew（macOS向けのパッケージ管理ツール）
+- [Homebrew（macOS向けのパッケージ管理ツール）](https://brew.sh/)
+  - [Tailscale](https://tailscale.com/)
+  - [Mosh](https://mosh.org/)
+  - [tmux](https://github.com/tmux/tmux/wiki)
 
 ### iPhone/iOS デバイス
 
 - App Store へのアクセス
+  - [Tailscale](https://tailscale.com/)
+  - [Termius](https://termius.com/)
 
 ### 使用するツール
 
