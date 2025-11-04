@@ -20,8 +20,21 @@
               "icon": "lucide-file",
               "title": "about"
             }
+          },
+          {
+            "id": "2f6194259b2e25e8",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.9.14"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.9.14"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -180,8 +193,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c20a05e7ec58915c",
+  "active": "21f68803223339cd",
   "lastOpenFiles": [
+    "blogs/ja/iphone-macos-remote-development-tmux-tailscale-mosh.md",
+    "blogs/en/iphone-macos-remote-development-tmux-tailscale-mosh.md",
     "Untitled.canvas",
     "blogs/ja/legacy-system-migration-lessons.md",
     "blogs/ja/Untitled.md",
