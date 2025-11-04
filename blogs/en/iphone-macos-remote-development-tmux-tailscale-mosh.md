@@ -48,14 +48,14 @@ This guide shows how to achieve the following by combining Tailscale and Mosh:
 
 #### Connection Architecture
 
-```
+```markdown
 iPhone (Termius)
-    ↓
- Tailscale VPN (peer-to-peer connection)
-    ↓
+↓
+Tailscale VPN (peer-to-peer connection)
+↓
 macOS (development machine)
-    ├─ SSH or Mosh server (selected in Termius)
-    └─ tmux session (persistent, multi-device sharing)
+├─ SSH or Mosh server (selected in Termius)
+└─ tmux session (persistent, multi-device sharing)
 ```
 
 Each layer works together to provide stable remote development in mobile environments:

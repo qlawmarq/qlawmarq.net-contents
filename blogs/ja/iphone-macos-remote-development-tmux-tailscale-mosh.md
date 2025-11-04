@@ -48,14 +48,14 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 
 #### 接続の仕組み
 
-```
+```markdown
 iPhone (Termius)
-    ↓
- Tailscale VPN (ピアツーピア接続)
-    ↓
+↓
+Tailscale VPN (ピアツーピア接続)
+↓
 macOS（開発マシン）
-    ├─ SSH または Mosh サーバー（Termius で選択）
-    └─ tmux セッション（永続化、マルチデバイス共有）
+├─ SSH または Mosh サーバー（Termius で選択）
+└─ tmux セッション（永続化、マルチデバイス共有）
 ```
 
 各レイヤーが連携して、モバイル環境でも安定したリモート開発を実現します：
