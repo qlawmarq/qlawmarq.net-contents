@@ -1,9 +1,9 @@
 ---
-title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Termius + Mosh + tmux"
-description: "外出先のiPhoneからmacOSに安全にリモートアクセスし、快適な開発作業を可能にする環境構築ガイドです。"
-tags: ["Software Development"]
+title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish/Blink + Mosh + tmux"
+description: "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）"
+tags: ["Software Development", "AI", "Remote Development", "Claude Code"]
 publishedAt: "2025-11-01T12:00:00.000Z"
-updatedAt: "2025-11-01T12:00:00.000Z"
+updatedAt: "2025-11-11T12:00:00.000Z"
 ---
 
 AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが増えつつあります。
@@ -26,46 +26,48 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 
 ### macOS 側
 
-- [Homebrew（macOS向けのパッケージ管理ツール）](https://brew.sh/)
-  - [Tailscale](https://tailscale.com/)
-  - [Mosh](https://mosh.org/)
-  - [tmux](https://github.com/tmux/tmux/wiki)
+- [Homebrew](https://brew.sh/) - macOS 向けパッケージ管理ツール
+- 以下のツール（Homebrew でインストール）:
+  - [Tailscale](https://tailscale.com/) - VPN
+  - [Mosh](https://mosh.org/) - モバイルシェル
+  - [tmux](https://github.com/tmux/tmux/wiki) - ターミナルマルチプレクサ
 
 ### iPhone/iOS デバイス
 
 - App Store へのアクセス
-  - [Tailscale](https://tailscale.com/)
-  - [Termius](https://termius.com/)
+- 以下のアプリ（App Store でインストール）:
+  - [Tailscale](https://tailscale.com/) - VPN
+  - SSH/Mosh クライアント（後述の推奨アプリから選択）
 
 ### 使用するツール
 
-| ツール        | 役割                  | 解決する課題                                        |
-| ------------- | --------------------- | --------------------------------------------------- |
-| **Tailscale** | ピアツーピア VPN      | ポート開放不要で外出先から自宅 Mac に安全アクセス   |
-| **Termius**   | SSH/Mosh クライアント | iPhone で GUI 操作、タップで接続、Mosh 標準サポート |
-| **Mosh**      | モバイルシェル        | Wi-Fi↔LTE 切替時も接続維持、遅延があっても快適入力 |
-| **tmux**      | セッション管理        | 接続切断後も作業継続、複数デバイスで画面共有        |
+| ツール                | 役割                  | 解決する課題                                        |
+| --------------------- | --------------------- | --------------------------------------------------- |
+| **Tailscale**         | ピアツーピア VPN      | ポート開放不要で外出先から自宅 Mac に安全アクセス   |
+| **Shellfish / Blink** | SSH/Mosh クライアント | iPhone で GUI 操作、タップで接続、Mosh 標準サポート |
+| **Mosh**              | モバイルシェル        | Wi-Fi↔LTE 切替時も接続維持、遅延があっても快適入力 |
+| **tmux**              | セッション管理        | 接続切断後も作業継続、複数デバイスで画面共有        |
 
 #### 接続の仕組み
 
 ```markdown
-iPhone (Termius)
+iPhone (Shellfish または Blink Shell)
 ↓
 Tailscale VPN (ピアツーピア接続)
 ↓
 macOS（開発マシン）
-├─ SSH または Mosh サーバー（Termius で選択）
+├─ SSH または Mosh サーバー
 └─ tmux セッション（永続化、マルチデバイス共有）
 ```
 
 各レイヤーが連携して、モバイル環境でも安定したリモート開発を実現します：
 
-| レイヤー         | 技術      | 役割                          |
-| ---------------- | --------- | ----------------------------- |
-| **クライアント** | Termius   | タップで接続、GUI 管理        |
-| **ネットワーク** | Tailscale | 安全な接続、NAT 越え、固定 IP |
-| **プロトコル**   | Mosh      | 接続維持、ローカルエコー      |
-| **セッション**   | tmux      | 切断後も継続、画面共有        |
+| レイヤー         | 技術              | 役割                          |
+| ---------------- | ----------------- | ----------------------------- |
+| **クライアント** | Shellfish / Blink | タップで接続、GUI 管理        |
+| **ネットワーク** | Tailscale         | 安全な接続、NAT 越え、固定 IP |
+| **プロトコル**   | Mosh              | 接続維持、ローカルエコー      |
+| **セッション**   | tmux              | 切断後も継続、画面共有        |
 
 ## セットアップ手順
 
@@ -86,29 +88,92 @@ brew install mosh
 brew install tmux
 ```
 
-#### 1.2 tmux の設定（オプショナル）
+#### 1.2 tmux の設定（推奨）
 
-tmux の設定ファイルを作成します。以下の内容を `~/.tmux.conf` に保存してください：
+tmux の設定ファイルを作成します。以下は Claude Code や AI ツールとの使用に最適化された設定です。
+
+`~/.tmux.conf` に以下の内容を保存してください：
 
 ```bash
-# マウスサポートを有効化（タッチ操作でペイン選択可能）
+# ====================================================================================
+# 基本設定 - 2025年推奨構成
+# ====================================================================================
+
+# Terminal Type: tmux-256color（現代的な推奨、tmux 2.6+）
+# - screen-256color より優れた点：
+#   - Italics サポート（screen は非対応）
+#   - より正確な色再現
+#   - CJK（日本語）文字の改善された処理
+set -g default-terminal "tmux-256color"
+
+# True Color（24-bit RGB）サポート
+# Modern tmux 3.2+ の推奨方法
+set -as terminal-features ",*:RGB"
+set-option -sa terminal-overrides ",tmux*:Tc"
+
+# マウスサポート（iOS でのタッチ操作に必須）
 set -g mouse on
 
-# viモードキーバインド
-setw -g mode-keys vi
+# ウィンドウ/ペイン番号を 1 から開始（人間に優しい）
+set -g base-index 1
+setw -g pane-base-index 1
 
-# ウィンドウ番号を自動で詰める
+# ウィンドウを閉じたら番号を詰める
 set -g renumber-windows on
 
-# ESC入力時の遅延をなくす（vim使用時の快適性向上）
-set -s escape-time 0
+# ====================================================================================
+# Claude Code / AI ツール最適化
+# ====================================================================================
 
-# ステータスバーの色設定
+# スクロールバックバッファを大幅に増加
+# Claude Code は長い出力を生成するため、大きなバッファが必要
+# 推奨: 500000行（約250MB）
+# 参考: デフォルトは2000行、一般的な使用で50000行
+set -g history-limit 500000
+
+# ESC キー応答時間を最小化（vim/neovim 使用時の快適性）
+# tmux 3.5 デフォルト: 10ms
+set -sg escape-time 0
+
+# Focus events を有効化（vim/neovim 統合）
+set -g focus-events on
+
+# メッセージ表示時間を延長（Claude Code の出力確認用）
+set -g display-time 3000
+
+# ペイン番号表示時間を延長（小さい画面での操作性向上）
+set -g display-panes-time 4000
+
+# ====================================================================================
+# キーバインド
+# ====================================================================================
+
+# vi モードキーバインド（コピーモードで vim のキーが使える）
+setw -g mode-keys vi
+
+# ステータスバーは Emacs スタイル（zsh デフォルトと一致）
+set -g status-keys emacs
+
+# ====================================================================================
+# ビジュアル設定
+# ====================================================================================
+
+# ステータスバーを上部に配置（iOS キーボードで隠れない）
+set -g status-position top
+
+# ステータスバーの色設定（シンプルで読みやすい）
 set -g status-style bg=black,fg=white
 
-# 256色ターミナルを有効化
-set -g default-terminal "screen-256color"
+# 現在のウィンドウを強調表示
+setw -g window-status-current-style bg=blue,fg=white,bold
 ```
+
+**この設定の利点**：
+
+- **Claude Code 対応**[^6]: 500000 行のスクロールバックで長い出力を完全に確認可能
+- **True Color**[^5]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
+- **CJK 文字最適化**: 日本語文字の表示品質向上
+- **iOS 最適化**: タッチ操作、キーボード位置を考慮した設計
 
 #### 1.3 リモートログインの有効化
 
@@ -148,51 +213,107 @@ tailscale ip -4
 
 ### 2. iPhone 側の設定
 
-#### 2.1 必要なアプリのインストール
+#### 2.1 SSH クライアントの選択
+
+iPhone/iPad 用の SSH クライアントは複数ありますが、2025 年 11 月時点での推奨アプリは以下の通りです。
+
+##### **推奨: Shellfish (Secure ShellFish)**[^1]
+
+**特徴**：
+
+- ✅ **優れた tmux サポート**: セッションのサムネイルプレビュー、2025 年も継続的に改善
+- ✅ **Mosh ネイティブサポート**: 接続の安定性が高い
+- ✅ **Files アプリ統合**: SSH サーバーを iOS の Files アプリに直接統合
+- ✅ **Handoff 対応**: デバイス間でセッション移行が可能（iPhone ↔ iPad ↔ Mac）
+- ✅ **iCloud Keychain 同期**: サーバー設定を自動同期
+- ✅ **買い切り可能**: $29.99 で永久使用可能（月額 $2.99、年額 $14.99 も選択可）
+
+**推奨理由**：
+
+- 長期的なコストパフォーマンスが高い（買い切り）
+- tmux との統合が優秀で、Claude Code の長い出力も問題なく扱える
+- 開発者のサポートが早い
+
+##### **代替案: Blink Shell**[^2]
+
+**特徴**：
+
+- ✅ **Mosh の完全サポート**: デバイス再起動後も接続維持
+- ✅ **オープンソース**: コミュニティによる継続的な改善
+- ✅ **Blink Code**: ブラウザ版 VSCode 統合
+- ✅ **高度なカスタマイズ**: テーマ、フォント、レイアウトの自由度が高い
+- ✅ **iPad マルチタスク最適化**: Split Screen / Slide Over に優れた対応
+
+**価格**: 年額 $19.99（買い切りオプションなし）
+
+**推奨理由**：
+
+- VSCode をモバイルで使いたい場合に最適
+
+#### 2.2 必要なアプリのインストール
 
 App Store から以下をインストール:
 
 1. **Tailscale** - VPN 接続用
-2. **Termius** - SSH/Mosh クライアント
+2. **Shellfish** または **Blink Shell** - SSH/Mosh クライアント（上記の推奨を参照）
 
-#### 2.2 Tailscale のセットアップ
+#### 2.3 Tailscale のセットアップ
 
 1. Tailscale アプリを起動
 2. macOS と同じアカウントでログイン
 3. 接続が完了すると、macOS と同じ VPN ネットワークに参加
 
-#### 2.3 Termius のセットアップ
+#### 2.4 SSH クライアントのセットアップ
 
-Termius は GUI ベースのアプリなので、すべての設定を画面上で行います。
+選択した SSH クライアント（Shellfish または Blink Shell）に SSH 接続を設定します。
 
-**ホストの追加手順:**
+##### **Shellfish の場合**
 
-1. Termius アプリを起動
-2. 下部の **Hosts** タブをタップ
-3. 右上の **+** ボタンをタップして新規ホストを追加
-4. **New Host** 画面で以下を入力:
-   - **Alias**: `mac`（任意の接続名、わかりやすい名前を付ける）
-   - **Hostname**: `<macOS の Tailscale IP>`
-     - 例: `100.64.1.2`
-     - **これは手順 1.3 でメモした macOS 側の IP アドレスです**
-   - **Username**: `<macOS のユーザー名>`
+1. Shellfish アプリを起動
+2. **+** ボタンをタップして新規ホストを追加
+3. 以下を入力:
+   - **Label**: `mac`（任意の接続名）
+   - **Hostname**: `<macOS の Tailscale IP>`（例: `100.64.1.2`）
+     - これは手順 1.4 でメモした macOS 側の IP アドレスです
+   - **User**: `<macOS のユーザー名>`
      - macOS で `whoami` コマンドを実行すると確認できます
-   - **Port**: `22`（SSH のデフォルトポート、変更不要）
-   - **Protocol**: `SSH`（初期設定、後で Mosh に変更可能）
-5. 右上の **Save** をタップして保存
+   - **Port**: `22`（SSH のデフォルトポート）
+4. **Save** をタップして保存
 
-これで Hosts 一覧に `mac` が表示されます。タップするだけで接続できるようになりました。
+Mosh を使用する場合:
+
+1. 保存したホストをタップして **Edit** を選択
+2. **Advanced** セクションで **Use Mosh** をオンにする
+3. **Save** をタップ
+
+##### **Blink Shell の場合**
+
+1. Blink Shell アプリを起動
+2. `config` コマンドを入力してホストを追加
+3. **Hosts** タブで **+** をタップ
+4. 以下を入力:
+   - **Host**: `mac`（任意のホスト名）
+   - **HostName**: `<macOS の Tailscale IP>`（例: `100.64.1.2`）
+   - **User**: `<macOS のユーザー名>`
+   - **Port**: `22`
+5. **Save** をタップ
+
+Mosh を使用する場合:
+
+- Blink Shell は Mosh をネイティブサポートしているため、`mosh mac` と入力するだけで Mosh 接続できます
+
+これで設定が完了しました。ホスト名をタップするだけで接続できるようになりました。
 
 ### 3. 接続テスト
 
 #### 3.1 SSH 接続のテスト
 
-Termius アプリで macOS への接続をテストします。
+SSH クライアントで macOS への接続をテストします。
 
 **接続手順:**
 
-1. Termius アプリを開く
-2. **Hosts** タブから先ほど作成した `mac` をタップ
+1. SSH クライアント（Shellfish または Blink Shell）を開く
+2. 先ほど作成した `mac` ホストをタップ
 3. 初回接続時は、ホストキーの確認ダイアログが表示されるので **Continue** または **Trust** をタップ
 4. パスワード入力が求められた場合は、macOS のユーザーパスワードを入力
 5. 接続に成功すると、macOS のターミナル画面が表示されます
@@ -206,40 +327,21 @@ hostname
 
 macOS のホスト名が表示されれば成功です。
 
-#### 3.2 Mosh 接続のセットアップ
+#### 3.2 Mosh 接続の利点
 
-Mosh は SSH よりもモバイル環境に適した接続方式です。通常の SSH 接続でも問題ない場合はこのステップはスキップ可能です。
+Mosh は SSH よりもモバイル環境に適した接続方式です。すでに設定済み（手順 2.4 参照）であれば、以下の利点を体験できます：
 
-**Termius での Mosh 設定手順:**
+**Mosh の利点:**
 
-Termius は Mosh を標準サポートしているため、GUI で簡単に設定できます。
+- 📱 **接続の安定性**: iPhone をスリープして数分後に復帰しても接続が維持されている
+- 🔄 **ネットワーク切り替え**: Wi-Fi から LTE に切り替えても接続が継続される
+- ⚡ **ローカルエコー**: 文字を入力すると即座にローカルでエコーされる（遅延のある回線でも快適）
+- 🔌 **デバイス再起動**: Blink Shell の場合、デバイス再起動後も接続を維持（Mosh の完全実装）
 
-1. Termius アプリで **Hosts** タブを開く
-2. `mac` ホストを **長押し**（または左スワイプ）して **Edit** を選択
-3. **Connection** セクションで以下を設定:
-   - **Protocol**: `Mosh` を選択（デフォルトは `SSH`）
-4. **Save** をタップして保存
+**Mosh vs SSH の使い分け:**
 
-**初回接続時の動作:**
-
-1. `mac` ホストをタップして接続
-2. Termius が自動的に SSH 経由で macOS に接続
-3. パスワードまたは SSH キーで認証
-4. mosh-server が自動的にインストールされる（macOS 側、root 権限不要）
-5. UDP 接続（ポート 60000-61000）に切り替わる
-6. 接続完了
-
-**2 回目以降の接続:**
-
-`mac` ホストをタップするだけで、自動的に Mosh 経由で接続されます。
-
-**Mosh の利点を確認:**
-
-接続後、以下の操作で Mosh の特徴を体験できます:
-
-- iPhone をスリープして数分後に復帰 → 接続が維持されている
-- Wi-Fi から LTE に切り替え → 接続が継続される
-- 文字を入力 → 即座にローカルエコーされる（遅延のある回線でも快適）
+- **Mosh 推奨**: 移動中、不安定な回線、長時間セッション
+- **SSH でも OK**: 自宅の安定した Wi-Fi、短時間の作業
 
 #### 3.3 tmux セッションの開始
 
@@ -289,7 +391,7 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
    ```
 
 2. **もう一方のデバイスから参加する:**
-   - iPhone の場合: Termius で `mac` ホストをタップして接続
+   - iPhone の場合: SSH クライアント（Shellfish/Blink Shell）で `mac` ホストをタップして接続
    - Mac の場合: ターミナルで `ssh <Tailscale IP>` または `mosh <Tailscale IP>` で接続
 
    接続後、以下のコマンドで同じセッションに参加:
@@ -334,7 +436,7 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
 **原因**: SSH 経由で実行されるコマンドで PATH が正しく設定されていない
 
-Termius が Mosh 接続を試みる際、以下のエラーが表示される場合：
+SSH クライアントが Mosh 接続を試みる際、以下のエラーが表示される場合：
 
 ```
 Command executed with error: zsh:1: command not found: mosh-server
@@ -345,9 +447,7 @@ No response from Mosh server
 
 **解決方法**:
 
-1. 手動で設定する場合:
-
-   `~/.zshenv` を作成して Homebrew の PATH を追加:
+1. `~/.zshenv` を作成して Homebrew の PATH を追加:
 
    ```bash
    # Homebrew
@@ -362,7 +462,7 @@ No response from Mosh server
 
    `/opt/homebrew/bin/mosh-server` と表示されれば成功です。
 
-3. Termius から再度 Mosh 接続を試してください。
+3. SSH クライアントから再度 Mosh 接続を試してください。
 
 ### その他の Mosh 接続の問題
 
@@ -432,10 +532,34 @@ code-server
 
 お疲れさまでした。これで iPhone から macOS に安全にリモートアクセスし、開発作業ができる環境が整いました。
 
-ここまでで構築した環境は、まさにAI時代の開発スタイル――モバイルで、常時接続で、途切れないという開発環境を実現できるはずです。
-Tailscaleの安全なVPN接続、Moshの安定したセッション維持、tmuxの共有機能を組み合わせることで、AIツールとどこからでも共同作業が可能になります。
+ここまでで構築した環境は、まさに AI 時代の開発スタイル――モバイルで、常時接続で、途切れないという開発環境を実現できるはずです。
+Tailscale の安全な VPN 接続、Mosh の安定したセッション維持、tmux の共有機能を組み合わせることで、AI ツールとどこからでも共同作業が可能になります。
 
-AIアシスト開発とモバイル中心のワークフローは、生産性の新しい形を提示しています。
+AI アシスト開発とモバイル中心のワークフローは、生産性の新しい形を提示しています。
 通勤中のデバッグ、カフェでのテスト実行、外出先からの即時デプロイ——どの場面でも、途切れずに「開発の流れ」を保つことができます。
 
 セキュリティ設定（Tailscale の 2FA 有効化など）を忘れずに行い、快適なモバイル開発ライフをお楽しみください。
+
+---
+
+**免責事項**: この記事の情報は 2025 年 11 月時点のものです。ソフトウェアのバージョンアップや仕様変更により、内容が古くなる可能性があります。最新の情報は各ツールの公式ドキュメントをご確認ください。
+
+---
+
+[^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [公式サイト](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025 年アップデート: DECSLRM 対応による tmux 改善
+
+[^2]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5 年以上 AppStore でトップの開発者ツール
+
+[^3]: [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349) - "Automatic scrolling to input on iOS Termius prevents viewing previous content" (2025 年 10 月)
+
+[^4]: [Termius - iOS バックグラウンド制限](https://support.termius.com/hc/en-us/articles/900006226306)
+
+[^5]: **Terminal Type 設定**: tmux-256color vs screen-256color については、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムで tmux-256color が推奨されています。
+
+[^6]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (2025 年 6 月) - 推奨: "big scrollback buffer" for Claude Code | 関連: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux の統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code 対応の実践的な dotfiles
+
+[^7]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024 年 10 月) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ)
+
+[^8]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | [GitHub Issue #122](https://github.com/mobile-shell/mosh/issues/122) - スクロールバック制限（解決策: tmux との併用を推奨）
+
+[^9]: **Tailscale 公式**: [公式サイト](https://tailscale.com/) | [セキュリティベストプラクティス](https://tailscale.com/kb/) | [管理コンソール](https://login.tailscale.com/admin)
