@@ -65,12 +65,12 @@
       ]
     },
     {
-      "filename": "iphone-macos-remote-development-tmux-tailscale-mosh.md",
-      "slug": "iphone-macos-remote-development-tmux-tailscale-mosh",
-      "title": "Remote Development from iPhone to macOS in the AI Era: Tailscale + Shellfish/Blink + Mosh + tmux",
+      "filename": "iphone-macos-remote-development-tailscale-shellfish-tmux.md",
+      "slug": "iphone-macos-remote-development-tailscale-shellfish-tmux",
+      "title": "Remote Development from iPhone to macOS in the AI Era: Tailscale + Shellfish + tmux",
       "description": "A comprehensive guide optimized for Claude Code and AI tools to securely access macOS from your iPhone while on the go",
       "publishedAt": "2025-11-01T12:00:00.000Z",
-      "updatedAt": "2025-11-11T12:00:00.000Z",
+      "updatedAt": "2025-11-25T12:00:00.000Z",
       "tags": [
         "Software Development",
         "AI",
@@ -180,12 +180,12 @@
       ]
     },
     {
-      "filename": "iphone-macos-remote-development-tmux-tailscale-mosh.md",
-      "slug": "iphone-macos-remote-development-tmux-tailscale-mosh",
-      "title": "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish/Blink + Mosh + tmux",
+      "filename": "iphone-macos-remote-development-tailscale-shellfish-tmux.md",
+      "slug": "iphone-macos-remote-development-tailscale-shellfish-tmux",
+      "title": "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish + tmux",
       "description": "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）",
       "publishedAt": "2025-11-01T12:00:00.000Z",
-      "updatedAt": "2025-11-11T12:00:00.000Z",
+      "updatedAt": "2025-11-25T12:00:00.000Z",
       "tags": [
         "Software Development",
         "AI",

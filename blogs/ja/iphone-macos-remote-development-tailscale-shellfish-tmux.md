@@ -1,9 +1,9 @@
 ---
-title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish/Blink + Mosh + tmux"
+title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish + tmux"
 description: "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）"
 tags: ["Software Development", "AI", "Remote Development", "Claude Code"]
 publishedAt: "2025-11-01T12:00:00.000Z"
-updatedAt: "2025-11-11T12:00:00.000Z"
+updatedAt: "2025-11-25T12:00:00.000Z"
 ---
 
 AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが増えつつあります。
@@ -16,11 +16,11 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 
 ## 概要
 
-このガイドでは、Tailscale と Mosh を組み合わせることで、以下を実現します：
+このガイドでは、Tailscale と Shellfish、tmux を組み合わせることで、以下を実現します：
 
 - ルーターのポート開放不要で外出先から自宅 Mac に安全アクセス
-- Wi-Fi↔LTE 切替時も接続が途切れない
 - 接続が切れても作業が継続され、再接続時に続きから再開可能
+- iPhone と Mac で同じターミナルセッションを共有
 
 ## 必要なもの
 
@@ -29,7 +29,6 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 - [Homebrew](https://brew.sh/) - macOS 向けパッケージ管理ツール
 - 以下のツール（Homebrew でインストール）:
   - [Tailscale](https://tailscale.com/) - VPN
-  - [Mosh](https://mosh.org/) - モバイルシェル
   - [tmux](https://github.com/tmux/tmux/wiki) - ターミナルマルチプレクサ
 
 ### iPhone/iOS デバイス
@@ -37,37 +36,36 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 - App Store へのアクセス
 - 以下のアプリ（App Store でインストール）:
   - [Tailscale](https://tailscale.com/) - VPN
-  - SSH/Mosh クライアント（後述の推奨アプリから選択）
+  - SSH クライアント（後述の推奨アプリから選択）
 
 ### 使用するツール
 
-| ツール                | 役割                  | 解決する課題                                        |
-| --------------------- | --------------------- | --------------------------------------------------- |
-| **Tailscale**         | ピアツーピア VPN      | ポート開放不要で外出先から自宅 Mac に安全アクセス   |
-| **Shellfish / Blink** | SSH/Mosh クライアント | iPhone で GUI 操作、タップで接続、Mosh 標準サポート |
-| **Mosh**              | モバイルシェル        | Wi-Fi↔LTE 切替時も接続維持、遅延があっても快適入力 |
-| **tmux**              | セッション管理        | 接続切断後も作業継続、複数デバイスで画面共有        |
+| ツール        | 役割             | 解決する課題                                      |
+| ------------- | ---------------- | ------------------------------------------------- |
+| **Tailscale** | ピアツーピア VPN | ポート開放不要で外出先から自宅 Mac に安全アクセス |
+| **Shellfish** | SSH クライアント | iPhone で GUI 操作、タップで接続、tmux 統合       |
+| **tmux**      | セッション管理   | 接続切断後も作業継続、複数デバイスで画面共有      |
 
 #### 接続の仕組み
 
 ```markdown
-iPhone (Shellfish または Blink Shell)
+iPhone (Shellfish)
 ↓
 Tailscale VPN (ピアツーピア接続)
 ↓
 macOS（開発マシン）
-├─ SSH または Mosh サーバー
+├─ SSH サーバー
 └─ tmux セッション（永続化、マルチデバイス共有）
 ```
 
 各レイヤーが連携して、モバイル環境でも安定したリモート開発を実現します：
 
-| レイヤー         | 技術              | 役割                          |
-| ---------------- | ----------------- | ----------------------------- |
-| **クライアント** | Shellfish / Blink | タップで接続、GUI 管理        |
-| **ネットワーク** | Tailscale         | 安全な接続、NAT 越え、固定 IP |
-| **プロトコル**   | Mosh              | 接続維持、ローカルエコー      |
-| **セッション**   | tmux              | 切断後も継続、画面共有        |
+| レイヤー         | 技術      | 役割                          |
+| ---------------- | --------- | ----------------------------- |
+| **クライアント** | Shellfish | タップで接続、GUI 管理        |
+| **ネットワーク** | Tailscale | 安全な接続、NAT 越え、固定 IP |
+| **プロトコル**   | SSH       | 暗号化された安全な接続        |
+| **セッション**   | tmux      | 切断後も継続、画面共有        |
 
 ## セットアップ手順
 
@@ -80,9 +78,6 @@ Homebrew を使って macOS に必要なツールをインストールします�
 ```bash
 # Tailscale (VPN) のインストール
 brew install --cask tailscale-app
-
-# Mosh (モバイルシェル) のインストール
-brew install mosh
 
 # tmux (ターミナルマルチプレクサ) のインストール
 brew install tmux
@@ -170,8 +165,8 @@ setw -g window-status-current-style bg=blue,fg=white,bold
 
 **この設定の利点**：
 
-- **Claude Code 対応**[^6]: 500000 行のスクロールバックで長い出力を完全に確認可能
-- **True Color**[^5]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
+- **Claude Code 対応**[^5]: 500000 行のスクロールバックで長い出力を完全に確認可能
+- **True Color**[^4]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
 - **CJK 文字最適化**: 日本語文字の表示品質向上
 - **iOS 最適化**: タッチ操作、キーボード位置を考慮した設計
 
@@ -215,30 +210,29 @@ tailscale ip -4
 
 #### 2.1 SSH クライアントの選択
 
-iPhone/iPad 用の SSH クライアントは複数ありますが、2025 年 11 月時点での推奨アプリは以下の通りです。
+iPhone/iPad 用の SSH クライアントは複数あります。筆者はいくつかのアプリを試した結果、**Shellfish** が最も使いやすいと感じました。2025 年 11 月時点での各アプリの評価は以下の通りです。
 
 ##### **推奨: Shellfish (Secure ShellFish)**[^1]
 
 **特徴**：
 
-- ✅ **優れた tmux サポート**: セッションのサムネイルプレビュー、2025 年も継続的に改善
-- ✅ **Mosh ネイティブサポート**: 接続の安定性が高い
+- ✅ **優れた tmux サポート**: セッションのサムネイルプレビュー、Handoff でデバイス間のセッション移行が可能
+- ✅ **バックグラウンド SSH 維持**: アプリがバックグラウンドでも SSH 接続を維持する機能
 - ✅ **Files アプリ統合**: SSH サーバーを iOS の Files アプリに直接統合
-- ✅ **Handoff 対応**: デバイス間でセッション移行が可能（iPhone ↔ iPad ↔ Mac）
 - ✅ **iCloud Keychain 同期**: サーバー設定を自動同期
 - ✅ **買い切り可能**: $29.99 で永久使用可能（月額 $2.99、年額 $14.99 も選択可）
 
 **推奨理由**：
 
-- 長期的なコストパフォーマンスが高い（買い切り）
 - tmux との統合が優秀で、Claude Code の長い出力も問題なく扱える
+- 長期的なコストパフォーマンスが高い（買い切り）
 - 開発者のサポートが早い
 
-##### **代替案: Blink Shell**[^2]
+##### **代替案 1: Blink Shell**[^2]
 
 **特徴**：
 
-- ✅ **Mosh の完全サポート**: デバイス再起動後も接続維持
+- ✅ **Mosh の完全サポート**: ネットワーク切り替え時も接続維持、デバイス再起動後も接続維持
 - ✅ **オープンソース**: コミュニティによる継続的な改善
 - ✅ **Blink Code**: ブラウザ版 VSCode 統合
 - ✅ **高度なカスタマイズ**: テーマ、フォント、レイアウトの自由度が高い
@@ -246,16 +240,31 @@ iPhone/iPad 用の SSH クライアントは複数ありますが、2025 年 11 
 
 **価格**: 年額 $19.99（買い切りオプションなし）
 
-**推奨理由**：
+**推奨される用途**：
 
-- VSCode をモバイルで使いたい場合に最適
+- VSCode をモバイルで使いたい場合
+- 不安定なネットワーク環境（移動中など）で Mosh による接続維持が必要な場合
+
+##### **代替案 2: Termius**[^3]
+
+**特徴**：
+
+- ✅ **クロスプラットフォーム**: Windows、macOS、Linux、iOS、Android で同期
+- ✅ **Mosh サポート**: 接続の安定性向上
+- ✅ **SFTP 統合**: ファイル転送機能内蔵
+
+**注意点**：
+
+- ⚠️ **Claude Code との互換性問題**: 2025 年 11 月時点で、AI ターミナルツール（Gemini CLI 等）使用時にスクロールバックの問題が[報告されています](https://github.com/google-gemini/gemini-cli/issues/10349)。長い出力の後に自動的に入力欄にスクロールされ、前の出力を確認できなくなる場合があります。
+
+**価格**: 無料版あり、Premium は月額 $15 程度
 
 #### 2.2 必要なアプリのインストール
 
 App Store から以下をインストール:
 
 1. **Tailscale** - VPN 接続用
-2. **Shellfish** または **Blink Shell** - SSH/Mosh クライアント（上記の推奨を参照）
+2. **Shellfish** - SSH クライアント（上記の推奨を参照）
 
 #### 2.3 Tailscale のセットアップ
 
@@ -263,11 +272,9 @@ App Store から以下をインストール:
 2. macOS と同じアカウントでログイン
 3. 接続が完了すると、macOS と同じ VPN ネットワークに参加
 
-#### 2.4 SSH クライアントのセットアップ
+#### 2.4 Shellfish のセットアップ
 
-選択した SSH クライアント（Shellfish または Blink Shell）に SSH 接続を設定します。
-
-##### **Shellfish の場合**
+Shellfish に SSH 接続を設定します。
 
 1. Shellfish アプリを起動
 2. **+** ボタンをタップして新規ホストを追加
@@ -280,39 +287,17 @@ App Store から以下をインストール:
    - **Port**: `22`（SSH のデフォルトポート）
 4. **Save** をタップして保存
 
-Mosh を使用する場合:
-
-1. 保存したホストをタップして **Edit** を選択
-2. **Advanced** セクションで **Use Mosh** をオンにする
-3. **Save** をタップ
-
-##### **Blink Shell の場合**
-
-1. Blink Shell アプリを起動
-2. `config` コマンドを入力してホストを追加
-3. **Hosts** タブで **+** をタップ
-4. 以下を入力:
-   - **Host**: `mac`（任意のホスト名）
-   - **HostName**: `<macOS の Tailscale IP>`（例: `100.64.1.2`）
-   - **User**: `<macOS のユーザー名>`
-   - **Port**: `22`
-5. **Save** をタップ
-
-Mosh を使用する場合:
-
-- Blink Shell は Mosh をネイティブサポートしているため、`mosh mac` と入力するだけで Mosh 接続できます
-
-これで設定が完了しました。ホスト名をタップするだけで接続できるようになりました。
+これで設定が完了しました。ホスト名をタップするだけで接続できるようになります。
 
 ### 3. 接続テスト
 
 #### 3.1 SSH 接続のテスト
 
-SSH クライアントで macOS への接続をテストします。
+Shellfish で macOS への接続をテストします。
 
 **接続手順:**
 
-1. SSH クライアント（Shellfish または Blink Shell）を開く
+1. Shellfish を開く
 2. 先ほど作成した `mac` ホストをタップ
 3. 初回接続時は、ホストキーの確認ダイアログが表示されるので **Continue** または **Trust** をタップ
 4. パスワード入力が求められた場合は、macOS のユーザーパスワードを入力
@@ -327,23 +312,7 @@ hostname
 
 macOS のホスト名が表示されれば成功です。
 
-#### 3.2 Mosh 接続の利点
-
-Mosh は SSH よりもモバイル環境に適した接続方式です。すでに設定済み（手順 2.4 参照）であれば、以下の利点を体験できます：
-
-**Mosh の利点:**
-
-- 📱 **接続の安定性**: iPhone をスリープして数分後に復帰しても接続が維持されている
-- 🔄 **ネットワーク切り替え**: Wi-Fi から LTE に切り替えても接続が継続される
-- ⚡ **ローカルエコー**: 文字を入力すると即座にローカルでエコーされる（遅延のある回線でも快適）
-- 🔌 **デバイス再起動**: Blink Shell の場合、デバイス再起動後も接続を維持（Mosh の完全実装）
-
-**Mosh vs SSH の使い分け:**
-
-- **Mosh 推奨**: 移動中、不安定な回線、長時間セッション
-- **SSH でも OK**: 自宅の安定した Wi-Fi、短時間の作業
-
-#### 3.3 tmux セッションの開始
+#### 3.2 tmux セッションの開始
 
 macOS に接続できたら、tmux セッションを開始します。または既存のセッションに参加することもできます：
 
@@ -432,52 +401,6 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 3. macOS でリモートログインが有効になっていることを確認
 4. iPhone の Tailscale アプリで接続状態を確認
 
-### Mosh で接続できない（`command not found: mosh-server`）
-
-**原因**: SSH 経由で実行されるコマンドで PATH が正しく設定されていない
-
-SSH クライアントが Mosh 接続を試みる際、以下のエラーが表示される場合：
-
-```
-Command executed with error: zsh:1: command not found: mosh-server
-No response from Mosh server
-```
-
-これは、SSH の non-interactive shell で実行される際に、`.zprofile` や `.zshrc` が読み込まれず、Homebrew の PATH が設定されていないことが原因です。
-
-**解決方法**:
-
-1. `~/.zshenv` を作成して Homebrew の PATH を追加:
-
-   ```bash
-   # Homebrew
-   eval "$(/opt/homebrew/bin/brew shellenv)"
-   ```
-
-2. 設定後、新しいシェルで確認:
-
-   ```bash
-   zsh -c 'which mosh-server'
-   ```
-
-   `/opt/homebrew/bin/mosh-server` と表示されれば成功です。
-
-3. SSH クライアントから再度 Mosh 接続を試してください。
-
-### その他の Mosh 接続の問題
-
-**原因**: Mosh がインストールされていない、またはファイアウォールで UDP ポートがブロックされている
-
-**解決方法**:
-
-1. macOS 側で Mosh がインストールされているか確認:
-   ```bash
-   which mosh-server
-   ```
-2. Tailscale 経由の接続なので通常ファイアウォールは問題ないが、念のため確認:
-   - システム設定 > ネットワーク > ファイアウォール
-3. SSH で接続できるか確認（Mosh は SSH 経由で初期接続を行う）
-
 ### SSH で "Permission denied" エラー
 
 **原因**: リモートログインが有効になっていない、またはユーザー権限の問題
@@ -533,7 +456,7 @@ code-server
 お疲れさまでした。これで iPhone から macOS に安全にリモートアクセスし、開発作業ができる環境が整いました。
 
 ここまでで構築した環境は、まさに AI 時代の開発スタイル――モバイルで、常時接続で、途切れないという開発環境を実現できるはずです。
-Tailscale の安全な VPN 接続、Mosh の安定したセッション維持、tmux の共有機能を組み合わせることで、AI ツールとどこからでも共同作業が可能になります。
+Tailscale の安全な VPN 接続、Shellfish のバックグラウンド SSH 維持機能、tmux の共有機能を組み合わせることで、AI ツールとどこからでも共同作業が可能になります。
 
 AI アシスト開発とモバイル中心のワークフローは、生産性の新しい形を提示しています。
 通勤中のデバッグ、カフェでのテスト実行、外出先からの即時デプロイ——どの場面でも、途切れずに「開発の流れ」を保つことができます。
@@ -550,16 +473,14 @@ AI アシスト開発とモバイル中心のワークフローは、生産性�
 
 [^2]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5 年以上 AppStore でトップの開発者ツール
 
-[^3]: [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349) - "Automatic scrolling to input on iOS Termius prevents viewing previous content" (2025 年 10 月)
+[^3]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [公式サイト](https://termius.com/) | 2025 年 11 月時点での注意: AI ターミナルツール使用時にスクロールバックの問題あり - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
 
-[^4]: [Termius - iOS バックグラウンド制限](https://support.termius.com/hc/en-us/articles/900006226306)
+[^4]: **Terminal Type 設定**: tmux-256color vs screen-256color については、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムで tmux-256color が推奨されています。
 
-[^5]: **Terminal Type 設定**: tmux-256color vs screen-256color については、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムで tmux-256color が推奨されています。
+[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (2025 年 6 月) - 推奨: "big scrollback buffer" for Claude Code | 関連: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux の統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code 対応の実践的な dotfiles
 
-[^6]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (2025 年 6 月) - 推奨: "big scrollback buffer" for Claude Code | 関連: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux の統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code 対応の実践的な dotfiles
+[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024 年 10 月) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ)
 
-[^7]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024 年 10 月) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ)
+[^7]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | Blink Shell などで Mosh を使用する場合の参考情報
 
-[^8]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | [GitHub Issue #122](https://github.com/mobile-shell/mosh/issues/122) - スクロールバック制限（解決策: tmux との併用を推奨）
-
-[^9]: **Tailscale 公式**: [公式サイト](https://tailscale.com/) | [セキュリティベストプラクティス](https://tailscale.com/kb/) | [管理コンソール](https://login.tailscale.com/admin)
+[^8]: **Tailscale 公式**: [公式サイト](https://tailscale.com/) | [セキュリティベストプラクティス](https://tailscale.com/kb/) | [管理コンソール](https://login.tailscale.com/admin)
