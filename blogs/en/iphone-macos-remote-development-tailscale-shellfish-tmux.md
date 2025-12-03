@@ -1,79 +1,63 @@
 ---
-title: "Remote Development from iPhone to macOS in the AI Era: Tailscale + Shellfish + tmux"
-description: "A comprehensive guide optimized for Claude Code and AI tools to securely access macOS from your iPhone while on the go"
+title: "iPhone to macOS Remote Dev with Tailscale + Shellfish"
+description: "Build a secure remote development environment from iPhone to macOS with Tailscale, Shellfish, and tmux. Optimized for AI tools like Claude Code. Start coding anywhere."
 tags: ["Software Development", "AI", "Remote Development", "Claude Code"]
 publishedAt: "2025-11-01T12:00:00.000Z"
-updatedAt: "2025-11-25T12:00:00.000Z"
+updatedAt: "2025-12-03T12:00:00.000Z"
 ---
 
-In the AI era, software development is no longer confined to powerful laptops or multi-monitor setups.
-With tools like Claude Code and Codex CLI, developers can now build and iterate through natural conversations with AI — reducing the need for heavy local environments.
+With the proliferation of AI and LLMs, more tasks can now be accomplished through natural conversation alone.
+Software development is no exception—thanks to tools like Claude Code and Codex CLI, we're moving toward a world where development happens simply through conversing with AI.
 
-This shift also changes how and where we work.
-Instead of always coding at a desk, we can now connect to our development machines remotely — even from an iPhone on the go.
+The need to work full-screen in a code editor on your PC is diminishing. While an execution environment is still necessary, remote development from a smartphone has become a viable option.
+We've entered an era where you can develop from anywhere by remotely connecting from your smartphone to your home development machine—not just at your desk.
 
-In this guide, I'll explore how to set up a lightweight, secure, and persistent remote development environment using Tailscale, Shellfish, and tmux — enabling you to code anywhere, seamlessly switching between your Mac and iPhone without losing your workflow.
-
-## Overview
-
-This guide shows how to achieve the following by combining Tailscale, Shellfish, and tmux:
-
-- Secure access to your home Mac from anywhere without port forwarding
-- Work sessions that persist through disconnections and resume seamlessly
-- Shared terminal sessions between iPhone and Mac
+This article shows you how to build a remote access environment that lets you code from your iPhone on a train or update code while relaxing in the bath.
 
 ## Requirements
 
-### macOS Side
+### Prerequisites
 
-- [Homebrew](https://brew.sh/) - Package manager for macOS
-- The following tools (install with Homebrew):
+This article assumes you're using AI terminal tools like Claude Code or Gemini CLI.
+Installation and basic usage of these tools aren't covered here—please refer to their official documentation.
+
+### Devices
+
+- macOS
   - [Tailscale](https://tailscale.com/) - VPN
   - [tmux](https://github.com/tmux/tmux/wiki) - Terminal multiplexer
-
-### iPhone/iOS Device
-
-- App Store access
-- The following apps (install from App Store):
+- iPhone / iPad
   - [Tailscale](https://tailscale.com/) - VPN
-  - SSH client (choose from recommended apps below)
+  - [Secure ShellFish](https://secureshellfish.app/) - SSH client for iOS
 
-### Tools Used
-
-| Tool          | Role               | Problem It Solves                                        |
-| ------------- | ------------------ | -------------------------------------------------------- |
-| **Tailscale** | Peer-to-peer VPN   | Secure remote access without port forwarding             |
-| **Shellfish** | SSH client         | iPhone GUI operation, tap-to-connect, tmux integration   |
-| **tmux**      | Session management | Work persistence across disconnections, screen sharing   |
-
-#### Connection Architecture
+### Connection Architecture
 
 ```markdown
 iPhone (Shellfish)
 ↓
-Tailscale VPN (peer-to-peer connection)
+Tailscale VPN (Peer-to-peer connection)
 ↓
-macOS (development machine)
+macOS (Development machine)
 ├─ SSH server
 └─ tmux session (persistent, multi-device sharing)
 ```
 
-Each layer works together to provide stable remote development in mobile environments:
+Each layer works together to enable stable remote development, even in mobile environments:
 
-| Layer        | Technology | Role                                       |
-| ------------ | ---------- | ------------------------------------------ |
-| **Client**   | Shellfish  | Tap-to-connect, GUI management             |
-| **Network**  | Tailscale  | Secure connection, NAT traversal, fixed IP |
-| **Protocol** | SSH        | Encrypted secure connection                |
-| **Session**  | tmux       | Session persistence, screen sharing        |
+| Layer        | Technology | Role                                          |
+| ------------ | ---------- | --------------------------------------------- |
+| **Client**   | Shellfish  | Tap to connect, GUI management                |
+| **Network**  | Tailscale  | Secure connection, NAT traversal, fixed IP    |
+| **Protocol** | SSH        | Encrypted secure connection                   |
+| **Session**  | tmux       | Continues after disconnection, screen sharing |
 
-## Setup Instructions
+## Setup Procedure
 
 ### 1. macOS Configuration
 
-#### 1.1 Installing Required Packages
+#### 1.1 Install Required Packages
 
-Install the necessary tools using Homebrew:
+Install the necessary tools on macOS using Homebrew:
 
 ```bash
 # Install Tailscale (VPN)
@@ -83,11 +67,22 @@ brew install --cask tailscale-app
 brew install tmux
 ```
 
+If you're not using Homebrew, download the installers from each official website.
+
 #### 1.2 tmux Configuration (Recommended)
 
-Create a tmux configuration file optimized for Claude Code and AI tools.
+Create a tmux configuration file.
 
-Save the following to `~/.tmux.conf`:
+If you're already using tmux, you can keep your existing setup. However, the configuration below is optimized for AI terminal tools—consider using it as a reference.
+
+**Benefits of this configuration**:
+
+- **Claude Code compatible**[^5]: 500,000 lines of scrollback to fully view long outputs
+- **True Color**[^4]: Latest color schemes display correctly (using tmux-256color)
+- **CJK character optimization**: Improved display quality for Japanese characters
+- **iOS optimization**: Design considering touch operations and keyboard position
+
+Save the following content to `~/.tmux.conf`:
 
 ```bash
 # ====================================================================================
@@ -95,65 +90,56 @@ Save the following to `~/.tmux.conf`:
 # ====================================================================================
 
 # Terminal Type: tmux-256color (modern recommendation, tmux 2.6+)
-# Benefits over screen-256color:
-#   - Italics support (screen doesn't support it)
-#   - Better color rendering
-#   - Improved CJK (Japanese/Chinese/Korean) character handling
 set -g default-terminal "tmux-256color"
 
-# True Color (24-bit RGB) Support
-# Modern tmux 3.2+ recommended method
-set -as terminal-features ",*:RGB"
-set-option -sa terminal-overrides ",tmux*:Tc"
-
-# Enable mouse support (essential for iOS touch operations)
+# Mouse support (for touch operations on iOS)
 set -g mouse on
 
-# Start window/pane numbering from 1 (human-friendly)
+# Start window/pane numbering at 1 (human-friendly)
 set -g base-index 1
 setw -g pane-base-index 1
 
-# Renumber windows when one is closed (no gaps)
+# Renumber windows when closing
 set -g renumber-windows on
 
 # ====================================================================================
-# Claude Code / AI Tools Optimization
+# Claude Code / AI Tool Optimization
 # ====================================================================================
 
-# Dramatically increase scrollback buffer
-# Claude Code generates verbose output requiring large buffer
+# Significantly increase scrollback buffer
+# Claude Code generates long outputs, requiring a large buffer
 # Recommended: 500000 lines (~250MB)
-# Reference: Default is 2000 lines, typical usage is 50000 lines
+# Reference: Default is 2000 lines, 50000 lines for typical use
 set -g history-limit 500000
 
-# Minimize ESC key response time (vim/neovim comfort)
+# Minimize ESC key response time (comfort when using vim/neovim)
 # tmux 3.5 default: 10ms
 set -sg escape-time 0
 
 # Enable focus events (vim/neovim integration)
 set -g focus-events on
 
-# Extend message display time (for reviewing Claude Code output)
+# Extend message display time (for confirming Claude Code output)
 set -g display-time 3000
 
-# Extend pane number display time (better usability on small screens)
+# Extend pane number display time (improved operability on small screens)
 set -g display-panes-time 4000
 
 # ====================================================================================
 # Key Bindings
 # ====================================================================================
 
-# vi mode key bindings (use vim keys in copy mode)
+# vi mode key bindings (vim keys available in copy mode)
 setw -g mode-keys vi
 
-# Emacs-style status bar (matches zsh default)
+# Status bar uses Emacs style (matches zsh default)
 set -g status-keys emacs
 
 # ====================================================================================
 # Visual Settings
 # ====================================================================================
 
-# Status bar at top (iOS keyboard won't cover it)
+# Position status bar at top (not hidden by iOS keyboard)
 set -g status-position top
 
 # Status bar color settings (simple and readable)
@@ -163,21 +149,14 @@ set -g status-style bg=black,fg=white
 setw -g window-status-current-style bg=blue,fg=white,bold
 ```
 
-**Benefits of this configuration**:
-
-- **Claude Code Ready**[^5]: 500000-line scrollback to fully review long outputs
-- **True Color**[^4]: Modern color schemes display correctly (using tmux-256color)
-- **CJK Character Optimized**: Better Japanese/Chinese/Korean text quality
-- **iOS Optimized**: Touch operations and keyboard position considered
-
 #### 1.3 Enable Remote Login
 
-Enable macOS remote login (SSH server):
+Enable Remote Login (SSH server) on macOS:
 
 1. Open System Settings
-2. Go to **General** > **Sharing**
-3. Enable **Remote Login**
-4. Select authorized users (recommended: administrators only)
+2. Select **General** > **Sharing**
+3. Turn on **Remote Login**
+4. Select users to allow access (recommended: administrators only)
 
 #### 1.4 Tailscale Setup
 
@@ -186,9 +165,9 @@ Enable macOS remote login (SSH server):
 open -a Tailscale
 ```
 
-1. When Tailscale launches, follow the login instructions
+1. Once the Tailscale app launches, follow the instructions to log in
 2. Authenticate with an SSO provider (Google, GitHub, etc.)
-3. Once connected, note the **Tailscale IP address assigned to macOS**:
+3. After connection is complete, **check the Tailscale IP address assigned to macOS**:
 
 ```bash
 tailscale ip -4
@@ -196,148 +175,142 @@ tailscale ip -4
 
 **Example output**: `100.64.1.2`
 
-**Important**: This is your macOS Tailscale IP address. **Save this IP** for use in later steps.
+**Important**: This is your macOS machine's Tailscale IP address (the connection destination). **Save this IP** as you'll need it in later steps.
 
-**Note**: Tailscale automatically assigns fixed IPs in the `100.x.y.z` format. This IP remains constant while the device is part of the Tailscale network.
+**Note**: Tailscale automatically assigns each device a fixed IP in the format `100.x.y.z`. This IP remains constant as long as the device stays connected to your Tailscale network.
 
 #### 1.5 Enable Tailscale 2FA (Recommended)
 
 1. Access the [Tailscale admin console](https://login.tailscale.com/admin)
-2. Navigate to **Settings** > **Users** and select your account
+2. Select your account from **Settings** > **Users**
 3. Enable **Two-factor authentication**
 
 ### 2. iPhone Configuration
 
-#### 2.1 SSH Client Selection
+#### 2.1 Choosing an SSH Client
 
-Multiple SSH clients are available for iPhone/iPad. After trying several apps, I found **Shellfish** to be the most user-friendly. Here's my assessment as of November 2025.
+Several SSH clients are available for iPhone/iPad. After testing multiple options, I found **Secure ShellFish** to be the most user-friendly. Here's an evaluation of each app as of November 2025.
 
 ##### **Recommended: Shellfish (Secure ShellFish)**[^1]
 
 **Features**:
 
-- ✅ **Excellent tmux Support**: Session thumbnail previews, Handoff for seamless device switching
-- ✅ **Background SSH Persistence**: Keeps SSH connections alive even when the app is in the background
-- ✅ **Files App Integration**: Direct SSH server integration into iOS Files app
-- ✅ **iCloud Keychain Sync**: Automatic server settings sync
-- ✅ **One-time Purchase**: $29.99 for lifetime use (monthly $2.99, yearly $14.99 also available)
+- **Excellent tmux support**: Session thumbnail previews, Handoff for session migration between devices
+- **Background SSH maintenance**: Feature to maintain SSH connection even when app is in background
+- **Files app integration**: Direct integration of SSH servers into iOS Files app
+- **iCloud Keychain sync**: Automatic server configuration sync
+- **One-time purchase available**: Permanent use for $29.99 (also available as monthly $2.99, annual $14.99, free version available)
 
-**Why Recommended**:
+**Why I recommend it**:
 
-- Excellent tmux integration that handles Claude Code's verbose output effortlessly
-- Strong long-term value with one-time purchase option
-- Highly responsive developer support
+- Excellent tmux integration—handles Claude Code's long outputs flawlessly
+- Great long-term value with one-time purchase option
+- Smooth, polished user experience
 
-##### **Alternative 1: Blink Shell**[^2]
-
-**Features**:
-
-- ✅ **Full Mosh Support**: Connection maintained during network switches and even after device reboot
-- ✅ **Open Source**: Continuous community improvements
-- ✅ **Blink Code**: Browser-based VSCode integration
-- ✅ **Advanced Customization**: High flexibility in themes, fonts, and layouts
-- ✅ **iPad Multitasking Optimized**: Excellent Split Screen / Slide Over support
-
-**Price**: $19.99/year (no one-time purchase option)
-
-**Best For**:
-
-- Using VSCode on mobile
-- Unstable network environments (traveling, etc.) where Mosh connection persistence is essential
-
-##### **Alternative 2: Termius**[^3]
+##### **Alternative 1: Termius**[^2]
 
 **Features**:
 
-- ✅ **Cross-platform**: Syncs across Windows, macOS, Linux, iOS, and Android
-- ✅ **Mosh Support**: Improved connection stability
-- ✅ **SFTP Integration**: Built-in file transfer
+- **Cross-platform**: Syncs across Windows, macOS, Linux, iOS, Android
+- **Mosh support**: Improved connection stability
+- **SFTP integration**: Built-in file transfer functionality
 
-**Caveats**:
+**Notes**:
 
-- ⚠️ **Claude Code Compatibility Issues**: As of November 2025, scrollback problems have been [reported](https://github.com/google-gemini/gemini-cli/issues/10349) when using AI terminal tools (e.g., Gemini CLI). The terminal may automatically scroll to the input field after long outputs, preventing you from reviewing previous content.
+- **Compatibility issues with Claude Code**: As of November 2025, [scrollback issues have been reported in GitHub Issue #10349](https://github.com/google-gemini/gemini-cli/issues/10349) when using AI terminal tools like Gemini CLI. After long outputs, the app may automatically scroll to the input field, preventing you from viewing previous output. (I stopped using Termius due to this issue.)
 
-**Price**: Free tier available; Premium around $15/month
+**Pricing**: Free version available, Pro plan is $10/month (annual billing), $15/month (monthly billing)
+
+##### **Alternative 2: Blink Shell**[^3]
+
+**Features**:
+
+- **Complete Mosh support**: Maintains connection during network switches, maintains connection after device restart
+- **Open source**: Continuous improvement by the community
+- **Blink Code**: Browser-based VSCode integration
+- **Advanced customization**: High degree of freedom in themes, fonts, and layouts
+- **iPad multitasking optimization**: Excellent support for Split Screen / Slide Over
+
+**Pricing**: $19.99/year (no one-time purchase option)
 
 #### 2.2 Install Required Apps
 
-Install from the App Store:
+Install the following from the App Store:
 
-1. **Tailscale** - VPN connection
-2. **Shellfish** - SSH client (see recommendations above)
+1. **Tailscale** - For VPN connection
+2. **Shellfish** - SSH client (refer to the recommendation above)
 
 #### 2.3 Tailscale Setup
 
 1. Launch the Tailscale app
-2. Log in with the same account used on macOS
-3. Once connected, you'll join the same VPN network as your Mac
+2. Log in with the same account as macOS
+3. Once connected, you'll join the same VPN network as macOS
 
 #### 2.4 Shellfish Setup
 
-Configure SSH connection in Shellfish.
+Configure your SSH connection in Shellfish:
 
-1. Launch Shellfish
+1. Launch the Shellfish app
 2. Tap the **+** button to add a new host
-3. Enter the following:
-   - **Label**: `mac` (any recognizable name)
-   - **Hostname**: `<macOS Tailscale IP>` (e.g., `100.64.1.2`)
-     - This is the IP from step 1.4 that you saved
-   - **User**: `<macOS username>`
-     - Confirm with `whoami` command on macOS
+3. Enter the following details:
+   - **Label**: `mac` (or any name you prefer)
+   - **Hostname**: Your macOS Tailscale IP (e.g., `100.64.1.2`)
+     - This is the IP you saved in step 1.4
+   - **User**: Your macOS username
+     - Run `whoami` on macOS if you're unsure
    - **Port**: `22` (SSH default)
 4. Tap **Save**
 
-Setup complete. Connect by tapping the host name.
+That's it! Tap the hostname to connect.
 
-### 3. Connection Testing
+### 3. Connection Test
 
-#### 3.1 SSH Connection Test
+#### 3.1 Test SSH Connection
 
-Test the macOS connection using Shellfish.
+Let's test your connection to macOS through Shellfish:
 
-**Connection Steps:**
+**Steps:**
 
 1. Open Shellfish
-2. Tap the `mac` host you created
-3. On first connection, tap **Continue** or **Trust** in the host key dialog
-4. Enter your macOS user password if prompted
-5. You'll see the macOS terminal upon successful connection
+2. Tap the `mac` host you just created
+3. On first connection, you'll see a host key confirmation—tap **Continue** or **Trust**
+4. Enter your macOS password if prompted
+5. Success! You should see your macOS terminal
 
-**Verification:**
-Confirm the connection with:
+**Verify the connection:**
 
 ```bash
 hostname
 ```
 
-If the macOS hostname appears, the connection succeeded.
+If you see your macOS hostname, you're connected successfully.
 
-#### 3.2 Starting a tmux Session
+#### 3.2 Start tmux Session
 
-Once connected to macOS, start or join a tmux session:
+Now that you're connected, start a tmux session:
 
 ```bash
 # Create a new session
 tmux new -s dev
 
-# Or join an existing session
+# Join an existing session
 tmux attach -t dev
 ```
 
 ## Basic Usage
 
-### tmux Basic Commands
+### Basic tmux Commands
 
 #### Session Management
 
 ```bash
 # Create a new session
-tmux new -s <session_name>
+tmux new -s <session-name>
 
 # Join an existing session
-tmux attach -t <session_name>
+tmux attach -t <session-name>
 
-# List sessions
+# Display session list
 tmux ls
 
 # Temporarily detach from session (session continues)
@@ -347,102 +320,91 @@ tmux ls
 exit
 ```
 
-### Sharing Sessions Between iPhone and Mac
+### Share the Same Session Between iPhone and Mac
 
-tmux allows you to share the same terminal session across devices.
+With tmux, you can share the same terminal session across your iPhone and Mac.
 
-1. **Start a session (on either device):**
+1. **Start a session (from either device):**
 
-   Connect to macOS and create a tmux session:
+   Connect to your macOS machine and create a tmux session:
 
    ```bash
    tmux new -s dev
    ```
 
-2. **Join from the other device:**
-   - iPhone: Tap the `mac` host in your SSH client (Shellfish/Blink Shell)
-   - Mac: Use `ssh <Tailscale IP>` or `mosh <Tailscale IP>` in Terminal
+2. **Join from your other device:**
+   - **iPhone**: Tap the `mac` host in Shellfish
+   - **Mac**: Run `ssh <Tailscale IP>` or `mosh <Tailscale IP>`
 
-   After connecting, join the session:
+   Then join the session:
 
    ```bash
    tmux attach -t dev
    ```
 
-3. **Synchronized screens:**
+3. **Synchronized in real-time:**
 
-   Any input from either device appears immediately on both screens. This enables starting work on iPhone and continuing on Mac, or vice versa.
-
-### Useful tmux Features
-
-The configuration above enables:
-
-- **Mouse support**: Touch-based pane selection
-- **vi key bindings**: vim keys in scroll mode
-- **Automatic renumbering**: Window numbers compress when closed
-- **No ESC delay**: Eliminates vim usage delays
-
-Customize by adding configurations to `~/.tmux.conf` as needed.
+   Everything you type on one device instantly appears on the other.
+   Start work on your iPhone, seamlessly continue on your Mac—or vice versa.
 
 ## Troubleshooting
 
-### Tailscale Can't Find macOS
+### Cannot Find macOS in Tailscale
 
-**Cause**: Different accounts on devices, or connection not established
+**Possible causes**: Different Tailscale accounts, or connection issues
 
-**Solution**:
+**Solutions**:
 
-1. Verify both devices use the same Tailscale account
-2. Check macOS Tailscale connection:
+1. Confirm both devices use the same Tailscale account
+2. Check macOS connection status:
    ```bash
    tailscale status
    ```
-3. Verify macOS remote login is enabled
-4. Check iPhone Tailscale app connection status
+3. Verify Remote Login is enabled on macOS
+4. Check Tailscale connection status on iPhone
 
 ### SSH "Permission denied" Error
 
-**Cause**: Remote login disabled, or user permission issues
+**Possible causes**: Remote Login disabled, or wrong username
 
-**Solution**:
+**Solutions**:
 
-1. Verify macOS remote login is enabled:
-   - System Settings > General > Sharing > Remote Login
-2. Verify correct username:
+1. Enable Remote Login on macOS:
+   - System Settings → General → Sharing → Remote Login
+2. Verify your username:
    ```bash
-   # Check current username on macOS
-   whoami
+   whoami  # Run this on macOS
    ```
 
 ### tmux Session Not Found
 
-**Cause**: Session not created, or incorrect session name
+**Possible causes**: Session doesn't exist yet, or wrong name
 
-**Solution**:
+**Solutions**:
 
-1. Check existing sessions:
+1. List existing sessions:
    ```bash
    tmux ls
    ```
-2. Create new session if none exist:
+2. Create the session if needed:
    ```bash
    tmux new -s dev
    ```
 
-## Advanced: VS Code on Browser
+## Advanced: VS Code in Your Browser
 
 ### code-server Setup
 
-To use VS Code in iPhone Safari:
+Want to use VS Code on your iPhone through Safari?
 
 ```bash
 # Install code-server on macOS
 brew install code-server
 
-# Start code-server
+# Start the server
 code-server
 
-# Access from iPhone Safari:
+# On iPhone, open Safari and navigate to:
 # http://<Tailscale IP>:8080
 ```
 
@@ -452,32 +414,34 @@ Find the password in `~/.config/code-server/config.yaml`.
 
 ## Summary
 
-You've now built a remote development environment that embodies the AI era of coding — mobile, connected, and resilient.
+You now have a secure remote development environment that lets you code on macOS from your iPhone.
 
-This setup isn't just about convenience; it represents a fundamental shift in how developers work.
-By combining Tailscale's secure networking, Shellfish's background SSH persistence, and tmux's session sharing, you can collaborate with AI tools or teammates from anywhere — all through your pocket-sized device.
+This setup embodies a development style built for the AI era—mobile, always-connected, and seamless.
+By combining Tailscale's secure VPN, Shellfish's persistent SSH connections, and tmux's session sharing, you can collaborate with AI tools from anywhere.
 
-AI-assisted coding and mobile-first workflows are redefining productivity.
-Whether you're debugging during your commute, monitoring builds from a café, or quickly deploying fixes from your iPhone, this setup lets you stay in flow — the way modern development was meant to be.
+AI-assisted development and mobile-first workflows unlock new levels of productivity.
+Debug during your commute, run tests at a cafe, deploy instantly from anywhere—you can maintain an uninterrupted flow in every scenario.
 
----
-
-**Disclaimer**: The information in this article is current as of November 2025. Software updates and specification changes may make some content outdated. Please refer to each tool's official documentation for the latest information.
+Remember to enable security features like Tailscale 2FA, and enjoy your newfound mobile development freedom.
 
 ---
 
-[^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [Official Site](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025 Update: DECSLRM support for improved tmux compatibility
+**Disclaimer**: The information in this article is current as of November 2025. Content may become outdated due to software version updates or specification changes. Please check the official documentation of each tool for the latest information.
 
-[^2]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [Official Site](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | Open source, top developer tool on AppStore for 5+ years
+---
 
-[^3]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [Official Site](https://termius.com/) | Note (Nov 2025): Scrollback issues reported with AI terminal tools - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
+[^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [Official Site](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025 Update: tmux improvements with DECSLRM support
 
-[^4]: **Terminal Type Configuration**: The tmux-256color vs screen-256color debate is widely discussed in the community. Multiple forums including [Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux) and [Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) recommend tmux-256color for modern terminals.
+[^2]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [Official Site](https://termius.com/) | Note as of November 2025: Scrollback issues when using AI terminal tools - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
 
-[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (June 2025) - Recommendation: "big scrollback buffer" for Claude Code | Related: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux integration tools | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Practical dotfiles for Claude Code
+[^3]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [Official Site](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | Open source, top developer tool on AppStore for over 5 years
 
-[^6]: **tmux Official**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 Release Notes](https://github.com/tmux/tmux/blob/master/CHANGES) (October 2024) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ)
+[^4]: **Terminal Type Settings**: The tmux-256color vs screen-256color debate is widely discussed in the community. tmux-256color is recommended in multiple forums including [Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux), [Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux), and others.
 
-[^7]: **Mosh Official**: [Official Site](https://mosh.org/) | [GitHub Repository](https://github.com/mobile-shell/mosh) | Reference for Mosh usage with Blink Shell
+[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (June 2025) - Recommended: "big scrollback buffer" for Claude Code | Related: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux integration tool | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Practical dotfiles compatible with Claude Code
+
+[^6]: **tmux Official**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 Release Notes](https://github.com/tmux/tmux/blob/master/CHANGES) (September 27, 2024, 3.5a October 5, 2024) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **Note**: Latest version is tmux 3.6
+
+[^7]: **Mosh Official**: [Official Site](https://mosh.org/) | [GitHub Repository](https://github.com/mobile-shell/mosh) | Reference information for using Mosh with Blink Shell and others
 
 [^8]: **Tailscale Official**: [Official Site](https://tailscale.com/) | [Security Best Practices](https://tailscale.com/kb/) | [Admin Console](https://login.tailscale.com/admin)

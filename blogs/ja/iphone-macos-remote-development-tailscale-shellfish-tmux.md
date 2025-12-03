@@ -3,7 +3,7 @@ title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shell
 description: "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）"
 tags: ["Software Development", "AI", "Remote Development", "Claude Code"]
 publishedAt: "2025-11-01T12:00:00.000Z"
-updatedAt: "2025-11-25T12:00:00.000Z"
+updatedAt: "2025-12-03T12:00:00.000Z"
 ---
 
 AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが増えつつあります。
@@ -12,41 +12,25 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
 以前のように PC の画面いっぱいにコードエディターを開く必要も薄くなりつつあり、依然としてソフトウェアの実行環境は必要ですがスマホからリモートで開発するということも選択肢に入るようになってきています。
 つまり、机に向かって作業するだけでなく、スマートフォンから自宅の開発マシンにリモート接続し、場所を問わず開発できる時代になったのです。
 
-この記事では、電車の中で iPhone からコーディングしたい、カフェで始めた作業を帰宅後に iPhone で続けたい——そんな要望を実現するリモートアクセス環境の構築方法を紹介します。
-
-## 概要
-
-このガイドでは、Tailscale と Shellfish、tmux を組み合わせることで、以下を実現します：
-
-- ルーターのポート開放不要で外出先から自宅 Mac に安全アクセス
-- 接続が切れても作業が継続され、再接続時に続きから再開可能
-- iPhone と Mac で同じターミナルセッションを共有
+この記事では、電車の中で iPhone からコーディングしたい、風呂に入りながら iPhone からコードを更新したい——そんな要望を実現するリモートアクセス環境の構築方法を紹介します。
 
 ## 必要なもの
 
-### macOS 側
+### 前提
 
-- [Homebrew](https://brew.sh/) - macOS 向けパッケージ管理ツール
-- 以下のツール（Homebrew でインストール）:
+この記事では Claude Code や Gemini CLI などの AI ターミナルツールを使用することを前提としています。
+それぞれのターミナルツールのインストールと基本的な使い方については、本記事では扱いませんので、各ツールの公式ドキュメントをそれぞれ参照してください。
+
+### デバイス
+
+- macOS
   - [Tailscale](https://tailscale.com/) - VPN
   - [tmux](https://github.com/tmux/tmux/wiki) - ターミナルマルチプレクサ
-
-### iPhone/iOS デバイス
-
-- App Store へのアクセス
-- 以下のアプリ（App Store でインストール）:
+- iPhone / iPad
   - [Tailscale](https://tailscale.com/) - VPN
-  - SSH クライアント（後述の推奨アプリから選択）
+  - [Secure ShellFish](https://secureshellfish.app/) - iOS 用 SSH クライアント
 
-### 使用するツール
-
-| ツール        | 役割             | 解決する課題                                      |
-| ------------- | ---------------- | ------------------------------------------------- |
-| **Tailscale** | ピアツーピア VPN | ポート開放不要で外出先から自宅 Mac に安全アクセス |
-| **Shellfish** | SSH クライアント | iPhone で GUI 操作、タップで接続、tmux 統合       |
-| **tmux**      | セッション管理   | 接続切断後も作業継続、複数デバイスで画面共有      |
-
-#### 接続の仕組み
+### 接続の仕組み
 
 ```markdown
 iPhone (Shellfish)
@@ -83,9 +67,20 @@ brew install --cask tailscale-app
 brew install tmux
 ```
 
+Homebrew を使わない場合は、各公式サイトからインストーラーをダウンロードしてインストールしてください。
+
 #### 1.2 tmux の設定（推奨）
 
-tmux の設定ファイルを作成します。以下は Claude Code や AI ツールとの使用に最適化された設定です。
+tmux の設定ファイルを作成します。
+
+既に tmux を使っている場合は、それをそのまま使っても構いませんが、以下の設定は AI ターミナルツールに最適化されていますので、参考にしてください。
+
+**この設定の利点**：
+
+- **Claude Code 対応**[^5]: 500000 行のスクロールバックで長い出力を完全に確認可能
+- **True Color**[^4]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
+- **CJK 文字最適化**: 日本語文字の表示品質向上
+- **iOS 最適化**: タッチ操作、キーボード位置を考慮した設計
 
 `~/.tmux.conf` に以下の内容を保存してください：
 
@@ -95,18 +90,9 @@ tmux の設定ファイルを作成します。以下は Claude Code や AI ツ�
 # ====================================================================================
 
 # Terminal Type: tmux-256color（現代的な推奨、tmux 2.6+）
-# - screen-256color より優れた点：
-#   - Italics サポート（screen は非対応）
-#   - より正確な色再現
-#   - CJK（日本語）文字の改善された処理
 set -g default-terminal "tmux-256color"
 
-# True Color（24-bit RGB）サポート
-# Modern tmux 3.2+ の推奨方法
-set -as terminal-features ",*:RGB"
-set-option -sa terminal-overrides ",tmux*:Tc"
-
-# マウスサポート（iOS でのタッチ操作に必須）
+# マウスサポート（iOS でのタッチ操作に）
 set -g mouse on
 
 # ウィンドウ/ペイン番号を 1 から開始（人間に優しい）
@@ -163,13 +149,6 @@ set -g status-style bg=black,fg=white
 setw -g window-status-current-style bg=blue,fg=white,bold
 ```
 
-**この設定の利点**：
-
-- **Claude Code 対応**[^5]: 500000 行のスクロールバックで長い出力を完全に確認可能
-- **True Color**[^4]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
-- **CJK 文字最適化**: 日本語文字の表示品質向上
-- **iOS 最適化**: タッチ操作、キーボード位置を考慮した設計
-
 #### 1.3 リモートログインの有効化
 
 macOS のリモートログイン（SSH サーバー）を有効化します：
@@ -210,54 +189,49 @@ tailscale ip -4
 
 #### 2.1 SSH クライアントの選択
 
-iPhone/iPad 用の SSH クライアントは複数あります。筆者はいくつかのアプリを試した結果、**Shellfish** が最も使いやすいと感じました。2025 年 11 月時点での各アプリの評価は以下の通りです。
+iPhone/iPad 用の SSH クライアントは複数あります。筆者はいくつかのアプリを試した結果、**Secure ShellFish** が最も使いやすいと感じました。2025 年 11 月時点での各アプリの評価は以下の通りです。
 
 ##### **推奨: Shellfish (Secure ShellFish)**[^1]
 
 **特徴**：
 
-- ✅ **優れた tmux サポート**: セッションのサムネイルプレビュー、Handoff でデバイス間のセッション移行が可能
-- ✅ **バックグラウンド SSH 維持**: アプリがバックグラウンドでも SSH 接続を維持する機能
-- ✅ **Files アプリ統合**: SSH サーバーを iOS の Files アプリに直接統合
-- ✅ **iCloud Keychain 同期**: サーバー設定を自動同期
-- ✅ **買い切り可能**: $29.99 で永久使用可能（月額 $2.99、年額 $14.99 も選択可）
+- **優れた tmux サポート**: セッションのサムネイルプレビュー、Handoff でデバイス間のセッション移行が可能
+- **バックグラウンド SSH 維持**: アプリがバックグラウンドでも SSH 接続を維持する機能
+- **Files アプリ統合**: SSH サーバーを iOS の Files アプリに直接統合
+- **iCloud Keychain 同期**: サーバー設定を自動同期
+- **買い切り可能**: $29.99 で永久使用可能（月額 $2.99、年額 $14.99 も選択可、無料版もあり）
 
 **推奨理由**：
 
 - tmux との統合が優秀で、Claude Code の長い出力も問題なく扱える
 - 長期的なコストパフォーマンスが高い（買い切り）
-- 開発者のサポートが早い
+- 使い心地が良い
 
-##### **代替案 1: Blink Shell**[^2]
-
-**特徴**：
-
-- ✅ **Mosh の完全サポート**: ネットワーク切り替え時も接続維持、デバイス再起動後も接続維持
-- ✅ **オープンソース**: コミュニティによる継続的な改善
-- ✅ **Blink Code**: ブラウザ版 VSCode 統合
-- ✅ **高度なカスタマイズ**: テーマ、フォント、レイアウトの自由度が高い
-- ✅ **iPad マルチタスク最適化**: Split Screen / Slide Over に優れた対応
-
-**価格**: 年額 $19.99（買い切りオプションなし）
-
-**推奨される用途**：
-
-- VSCode をモバイルで使いたい場合
-- 不安定なネットワーク環境（移動中など）で Mosh による接続維持が必要な場合
-
-##### **代替案 2: Termius**[^3]
+##### **代替案 1: Termius**[^2]
 
 **特徴**：
 
-- ✅ **クロスプラットフォーム**: Windows、macOS、Linux、iOS、Android で同期
-- ✅ **Mosh サポート**: 接続の安定性向上
-- ✅ **SFTP 統合**: ファイル転送機能内蔵
+- **クロスプラットフォーム**: Windows、macOS、Linux、iOS、Android で同期
+- **Mosh サポート**: 接続の安定性向上
+- **SFTP 統合**: ファイル転送機能内蔵
 
 **注意点**：
 
-- ⚠️ **Claude Code との互換性問題**: 2025 年 11 月時点で、AI ターミナルツール（Gemini CLI 等）使用時にスクロールバックの問題が[報告されています](https://github.com/google-gemini/gemini-cli/issues/10349)。長い出力の後に自動的に入力欄にスクロールされ、前の出力を確認できなくなる場合があります。
+- **Claude Code との互換性問題**: 2025 年 11 月時点で、AI ターミナルツール（Gemini CLI 等）使用時にスクロールバックの問題が[報告されています](https://github.com/google-gemini/gemini-cli/issues/10349)。長い出力の後に自動的に入力欄にスクロールされ、前の出力を確認できなくなる場合があります。（筆者はこの問題により Termius の使用を中止しました。）
 
-**価格**: 無料版あり、Premium は月額 $15 程度
+**価格**: 無料版あり、Pro プランは月額 $10（年間請求時）、月額 $15（月次請求時）
+
+##### **代替案 2: Blink Shell**[^3]
+
+**特徴**：
+
+- **Mosh の完全サポート**: ネットワーク切り替え時も接続維持、デバイス再起動後も接続維持
+- **オープンソース**: コミュニティによる継続的な改善
+- **Blink Code**: ブラウザ版 VSCode 統合
+- **高度なカスタマイズ**: テーマ、フォント、レイアウトの自由度が高い
+- **iPad マルチタスク最適化**: Split Screen / Slide Over に優れた対応
+
+**価格**: 年額 $19.99（買い切りオプションなし）
 
 #### 2.2 必要なアプリのインストール
 
@@ -360,7 +334,7 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
    ```
 
 2. **もう一方のデバイスから参加する:**
-   - iPhone の場合: SSH クライアント（Shellfish/Blink Shell）で `mac` ホストをタップして接続
+   - iPhone の場合: SSH クライアントで `mac` ホストをタップして接続
    - Mac の場合: ターミナルで `ssh <Tailscale IP>` または `mosh <Tailscale IP>` で接続
 
    接続後、以下のコマンドで同じセッションに参加:
@@ -373,17 +347,6 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
    どちらのデバイスで入力しても、両方の画面に即座に反映されます。
    これにより、iPhone で作業を開始し、Mac で続きを行う、といった使い方が可能です。
-
-### tmux の便利な機能
-
-上記の設定により、以下の機能が有効になります：
-
-- **マウスサポート**: タッチ操作でペインを選択可能
-- **vi キーバインド**: スクロールモードで vim のキーが使える
-- **自動番号振り直し**: ウィンドウを閉じても番号が詰まる
-- **ESC 遅延なし**: vim 使用時の遅延を解消
-
-必要に応じて、`~/.tmux.conf` に設定を追加してカスタマイズできます。
 
 ## トラブルシューティング
 
@@ -471,15 +434,15 @@ AI アシスト開発とモバイル中心のワークフローは、生産性�
 
 [^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [公式サイト](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025 年アップデート: DECSLRM 対応による tmux 改善
 
-[^2]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5 年以上 AppStore でトップの開発者ツール
+[^2]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [公式サイト](https://termius.com/) | 2025 年 11 月時点での注意: AI ターミナルツール使用時にスクロールバックの問題あり - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
 
-[^3]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [公式サイト](https://termius.com/) | 2025 年 11 月時点での注意: AI ターミナルツール使用時にスクロールバックの問題あり - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
+[^3]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5 年以上 AppStore でトップの開発者ツール
 
 [^4]: **Terminal Type 設定**: tmux-256color vs screen-256color については、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムで tmux-256color が推奨されています。
 
 [^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (2025 年 6 月) - 推奨: "big scrollback buffer" for Claude Code | 関連: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux の統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code 対応の実践的な dotfiles
 
-[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024 年 10 月) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ)
+[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024年9月27日、3.5a は2024年10月5日) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **注**: 最新版は tmux 3.6
 
 [^7]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | Blink Shell などで Mosh を使用する場合の参考情報
 
