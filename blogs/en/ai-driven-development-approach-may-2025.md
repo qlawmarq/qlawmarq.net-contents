@@ -1,9 +1,9 @@
 ---
 title: "My Approach to AI-Driven Development as of May 2025"
-description: "Sharing practical insights on AI-driven development as of May 2025. Based on experience writing over 100,000 lines of code using tools like Cursor, Claude, and MCP, this article explains effective collaboration with AI, techniques for quality improvement, and future perspectives."
+description: "Sharing practical insights on AI-driven development as of May 2025. Based on experience writing over 100,000 lines of code using tools like Cursor, Claude, and MCP."
 tags: ["AI", "Software Development"]
 publishedAt: "2025-05-13T12:00:00.000Z"
-updatedAt: "2025-05-13T12:00:00.000Z"
+updatedAt: "2025-12-01T12:00:00.000Z"
 ---
 
 ## Introduction
@@ -197,6 +197,12 @@ In the military field, advanced country militaries are considering strategies to
 In any case, this technology is "destructive and fatal." While its impact isn't fully apparent yet, I believe it will have significant implications in the near future.
 
 In the near future, I might need to consider retiring from software development myself.
+
+## Addendum (December 2025)
+
+After writing this article, Claude Code was officially released, and I feel that agents are becoming even more central in the field of software development.
+
+The fact that content becomes outdated within just a few months is proof of how fast technology is progressing. The content of this article has already become dated, so please refer to [this article](/en/blog/ai-driven-development-approach-december-2025) for my approach to AI-driven development as of December 2025.
 
 ---
 
