@@ -16,7 +16,7 @@ In this context, I've been finding it increasingly difficult to answer when peop
 
 So in this article, I'd like to explain what AI agent workflows are, while also organizing my own thoughts on the topic.
 
-### A Note on Terminology
+## A Note on Terminology
 
 Before diving into the main topic, let me briefly clarify some terminology.
 

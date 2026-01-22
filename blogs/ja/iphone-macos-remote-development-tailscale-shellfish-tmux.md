@@ -1,24 +1,24 @@
 ---
 title: "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish + tmux"
-description: "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）"
+description: "Claude CodeなどのAIツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）"
 tags: ["Software Development", "AI", "Remote Development", "Claude Code"]
 publishedAt: "2025-11-01T12:00:00.000Z"
 updatedAt: "2025-12-03T12:00:00.000Z"
 ---
 
-AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが増えつつあります。
-ソフトウェア開発という文脈でも例外ではなく、Claude Code や Codex CLI などのツールのおかげで、AI/LLM と会話しているだけでソフトウェア開発ができるという世界が現実になりつつあります。
+AI/LLMの普及に伴い、AI/LLMとの会話だけで作業できることが増えつつあります。
+ソフトウェア開発という文脈でも例外ではなく、Claude CodeやCodex CLIなどのツールのおかげで、AI/LLMと会話しているだけでソフトウェア開発ができるという世界が現実になりつつあります。
 
-以前のように PC の画面いっぱいにコードエディターを開く必要も薄くなりつつあり、依然としてソフトウェアの実行環境は必要ですがスマホからリモートで開発するということも選択肢に入るようになってきています。
+以前のようにPCの画面いっぱいにコードエディターを開く必要も薄くなりつつあり、依然としてソフトウェアの実行環境は必要ですがスマホからリモートで開発するということも選択肢に入るようになってきています。
 つまり、机に向かって作業するだけでなく、スマートフォンから自宅の開発マシンにリモート接続し、場所を問わず開発できる時代になったのです。
 
-この記事では、電車の中で iPhone からコーディングしたい、風呂に入りながら iPhone からコードを更新したい——そんな要望を実現するリモートアクセス環境の構築方法を紹介します。
+この記事では、電車の中でiPhoneからコーディングしたい、風呂に入りながらiPhoneからコードを更新したい——そんな要望を実現するリモートアクセス環境の構築方法を紹介します。
 
 ## 必要なもの
 
 ### 前提
 
-この記事では Claude Code や Gemini CLI などの AI ターミナルツールを使用することを前提としています。
+この記事ではClaude CodeやGemini CLIなどのAIターミナルツールを使用することを前提としています。
 それぞれのターミナルツールのインストールと基本的な使い方については、本記事では扱いませんので、各ツールの公式ドキュメントをそれぞれ参照してください。
 
 ### デバイス
@@ -28,7 +28,7 @@ AI/LLM の普及に伴い、AI/LLM との会話だけで作業できることが
   - [tmux](https://github.com/tmux/tmux/wiki) - ターミナルマルチプレクサ
 - iPhone / iPad
   - [Tailscale](https://tailscale.com/) - VPN
-  - [Secure ShellFish](https://secureshellfish.app/) - iOS 用 SSH クライアント
+  - [Secure ShellFish](https://secureshellfish.app/) - iOS用SSHクライアント
 
 ### 接続の仕組み
 
@@ -57,7 +57,7 @@ macOS（開発マシン）
 
 #### 1.1 必要なパッケージのインストール
 
-Homebrew を使って macOS に必要なツールをインストールします：
+Homebrewを使ってmacOSに必要なツールをインストールします：
 
 ```bash
 # Tailscale (VPN) のインストール
@@ -67,18 +67,18 @@ brew install --cask tailscale-app
 brew install tmux
 ```
 
-Homebrew を使わない場合は、各公式サイトからインストーラーをダウンロードしてインストールしてください。
+Homebrewを使わない場合は、各公式サイトからインストーラーをダウンロードしてインストールしてください。
 
 #### 1.2 tmux の設定（推奨）
 
-tmux の設定ファイルを作成します。
+tmuxの設定ファイルを作成します。
 
-既に tmux を使っている場合は、それをそのまま使っても構いませんが、以下の設定は AI ターミナルツールに最適化されていますので、参考にしてください。
+既にtmuxを使っている場合は、それをそのまま使っても構いませんが、以下の設定はAIターミナルツールに最適化されていますので、参考にしてください。
 
 **この設定の利点**：
 
-- **Claude Code 対応**[^5]: 500000 行のスクロールバックで長い出力を完全に確認可能
-- **True Color**[^4]: 最新のカラースキームが正しく表示される（tmux-256color を使用）
+- **Claude Code 対応**[^5]: 500000行のスクロールバックで長い出力を完全に確認可能
+- **True Color**[^4]: 最新のカラースキームが正しく表示される（tmux-256colorを使用）
 - **CJK 文字最適化**: 日本語文字の表示品質向上
 - **iOS 最適化**: タッチ操作、キーボード位置を考慮した設計
 
@@ -151,12 +151,12 @@ setw -g window-status-current-style bg=blue,fg=white,bold
 
 #### 1.3 リモートログインの有効化
 
-macOS のリモートログイン（SSH サーバー）を有効化します：
+macOSのリモートログイン（SSHサーバー）を有効化します：
 
 1. システム設定を開く
 2. **一般** > **共有** を選択
 3. **リモートログイン** をオンにする
-4. アクセスを許可するユーザーを選択（推奨: 管理者のみ）
+4. アクセスを許可するユーザーを選択（推奨： 管理者のみ）
 
 #### 1.4 Tailscale のセットアップ
 
@@ -165,9 +165,9 @@ macOS のリモートログイン（SSH サーバー）を有効化します：
 open -a Tailscale
 ```
 
-1. Tailscale アプリが起動したら、指示に従ってログイン
-2. SSO プロバイダー（Google、GitHub など）で認証
-3. 接続が完了したら、**macOS に割り当てられた Tailscale IP アドレス**を確認:
+1. Tailscaleアプリが起動したら、指示に従ってログイン
+2. SSOプロバイダー（Google、GitHubなど）で認証
+3. 接続が完了したら、**macOS に割り当てられた Tailscale IP アドレス**を確認：
 
 ```bash
 tailscale ip -4
@@ -175,9 +175,9 @@ tailscale ip -4
 
 **出力例**: `100.64.1.2`
 
-**重要**: この IP アドレスは macOS（接続先サーバー）の Tailscale IP です。後の手順で使用するため、**必ずメモしておいてください**。
+**重要**: このIPアドレスはmacOS（接続先サーバー）のTailscale IPです。後の手順で使用するため、**必ずメモしておいてください**。
 
-**補足**: Tailscale は各デバイスに `100.x.y.z` 形式の固定 IP を自動割り当てします。この IP は、デバイスが Tailscale ネットワークに参加している限り変わりません。
+**補足**: Tailscaleは各デバイスに `100.x.y.z` 形式の固定IPを自動割り当てします。このIPは、デバイスがTailscaleネットワークに参加している限り変わりません。
 
 #### 1.5 Tailscale の 2FA 有効化（推奨）
 
@@ -189,21 +189,21 @@ tailscale ip -4
 
 #### 2.1 SSH クライアントの選択
 
-iPhone/iPad 用の SSH クライアントは複数あります。筆者はいくつかのアプリを試した結果、**Secure ShellFish** が最も使いやすいと感じました。2025 年 11 月時点での各アプリの評価は以下の通りです。
+iPhone/iPad用のSSHクライアントは複数あります。筆者はいくつかのアプリを試した結果、**Secure ShellFish** が最も使いやすいと感じました。2025年11月時点での各アプリの評価は以下の通りです。
 
 ##### **推奨: Shellfish (Secure ShellFish)**[^1]
 
 **特徴**：
 
-- **優れた tmux サポート**: セッションのサムネイルプレビュー、Handoff でデバイス間のセッション移行が可能
-- **バックグラウンド SSH 維持**: アプリがバックグラウンドでも SSH 接続を維持する機能
-- **Files アプリ統合**: SSH サーバーを iOS の Files アプリに直接統合
+- **優れた tmux サポート**: セッションのサムネイルプレビュー、Handoffでデバイス間のセッション移行が可能
+- **バックグラウンド SSH 維持**: アプリがバックグラウンドでもSSH接続を維持する機能
+- **Files アプリ統合**: SSHサーバーをiOSのFilesアプリに直接統合
 - **iCloud Keychain 同期**: サーバー設定を自動同期
-- **買い切り可能**: $29.99 で永久使用可能（月額 $2.99、年額 $14.99 も選択可、無料版もあり）
+- **買い切り可能**: $29.99で永久使用可能（月額 $2.99、年額 $14.99も選択可、無料版もあり）
 
 **推奨理由**：
 
-- tmux との統合が優秀で、Claude Code の長い出力も問題なく扱える
+- tmuxとの統合が優秀で、Claude Codeの長い出力も問題なく扱える
 - 長期的なコストパフォーマンスが高い（買い切り）
 - 使い心地が良い
 
@@ -211,15 +211,15 @@ iPhone/iPad 用の SSH クライアントは複数あります。筆者はいく
 
 **特徴**：
 
-- **クロスプラットフォーム**: Windows、macOS、Linux、iOS、Android で同期
+- **クロスプラットフォーム**: Windows、macOS、Linux、iOS、Androidで同期
 - **Mosh サポート**: 接続の安定性向上
 - **SFTP 統合**: ファイル転送機能内蔵
 
 **注意点**：
 
-- **Claude Code との互換性問題**: 2025 年 11 月時点で、AI ターミナルツール（Gemini CLI 等）使用時にスクロールバックの問題が[報告されています](https://github.com/google-gemini/gemini-cli/issues/10349)。長い出力の後に自動的に入力欄にスクロールされ、前の出力を確認できなくなる場合があります。（筆者はこの問題により Termius の使用を中止しました。）
+- **Claude Code との互換性問題**: 2025年11月時点で、AIターミナルツール（Gemini CLI等）使用時にスクロールバックの問題が[報告されています](https://github.com/google-gemini/gemini-cli/issues/10349)。長い出力の後に自動的に入力欄にスクロールされ、前の出力を確認できなくなる場合があります。（筆者はこの問題によりTermiusの使用を中止しました）
 
-**価格**: 無料版あり、Pro プランは月額 $10（年間請求時）、月額 $15（月次請求時）
+**価格**: 無料版あり、Proプランは月額 $10（年間請求時）、月額 $15（月次請求時）
 
 ##### **代替案 2: Blink Shell**[^3]
 
@@ -227,38 +227,38 @@ iPhone/iPad 用の SSH クライアントは複数あります。筆者はいく
 
 - **Mosh の完全サポート**: ネットワーク切り替え時も接続維持、デバイス再起動後も接続維持
 - **オープンソース**: コミュニティによる継続的な改善
-- **Blink Code**: ブラウザ版 VSCode 統合
+- **Blink Code**: ブラウザ版VSCode統合
 - **高度なカスタマイズ**: テーマ、フォント、レイアウトの自由度が高い
-- **iPad マルチタスク最適化**: Split Screen / Slide Over に優れた対応
+- **iPad マルチタスク最適化**: Split Screen / Slide Overに優れた対応
 
 **価格**: 年額 $19.99（買い切りオプションなし）
 
 #### 2.2 必要なアプリのインストール
 
-App Store から以下をインストール:
+App Storeから以下をインストール：
 
-1. **Tailscale** - VPN 接続用
-2. **Shellfish** - SSH クライアント（上記の推奨を参照）
+1. **Tailscale** - VPN接続用
+2. **Shellfish** - SSHクライアント（上記の推奨を参照）
 
 #### 2.3 Tailscale のセットアップ
 
-1. Tailscale アプリを起動
-2. macOS と同じアカウントでログイン
-3. 接続が完了すると、macOS と同じ VPN ネットワークに参加
+1. Tailscaleアプリを起動
+2. macOSと同じアカウントでログイン
+3. 接続が完了すると、macOSと同じVPNネットワークに参加
 
 #### 2.4 Shellfish のセットアップ
 
-Shellfish に SSH 接続を設定します。
+ShellfishにSSH接続を設定します。
 
-1. Shellfish アプリを起動
+1. Shellfishアプリを起動
 2. **+** ボタンをタップして新規ホストを追加
-3. 以下を入力:
+3. 以下を入力：
    - **Label**: `mac`（任意の接続名）
-   - **Hostname**: `<macOS の Tailscale IP>`（例: `100.64.1.2`）
-     - これは手順 1.4 でメモした macOS 側の IP アドレスです
+   - **Hostname**: `<macOS の Tailscale IP>`（例： `100.64.1.2`）
+     - これは手順1.4でメモしたmacOS側のIPアドレスです
    - **User**: `<macOS のユーザー名>`
-     - macOS で `whoami` コマンドを実行すると確認できます
-   - **Port**: `22`（SSH のデフォルトポート）
+     - macOSで `whoami` コマンドを実行すると確認できます
+   - **Port**: `22`（SSHのデフォルトポート）
 4. **Save** をタップして保存
 
 これで設定が完了しました。ホスト名をタップするだけで接続できるようになります。
@@ -267,28 +267,28 @@ Shellfish に SSH 接続を設定します。
 
 #### 3.1 SSH 接続のテスト
 
-Shellfish で macOS への接続をテストします。
+ShellfishでmacOSへの接続をテストします。
 
 **接続手順:**
 
-1. Shellfish を開く
+1. Shellfishを開く
 2. 先ほど作成した `mac` ホストをタップ
 3. 初回接続時は、ホストキーの確認ダイアログが表示されるので **Continue** または **Trust** をタップ
-4. パスワード入力が求められた場合は、macOS のユーザーパスワードを入力
-5. 接続に成功すると、macOS のターミナル画面が表示されます
+4. パスワード入力が求められた場合は、macOSのユーザーパスワードを入力
+5. 接続に成功すると、macOSのターミナル画面が表示されます
 
 **確認:**
-接続後、以下のコマンドでホスト名を確認できます:
+接続後、以下のコマンドでホスト名を確認できます：
 
 ```bash
 hostname
 ```
 
-macOS のホスト名が表示されれば成功です。
+macOSのホスト名が表示されれば成功です。
 
 #### 3.2 tmux セッションの開始
 
-macOS に接続できたら、tmux セッションを開始します。または既存のセッションに参加することもできます：
+macOSに接続できたら、tmuxセッションを開始します。または既存のセッションに参加することもできます：
 
 ```bash
 # 新しいセッションを作成
@@ -323,21 +323,21 @@ exit
 
 ### 同一セッションを iPhone と Mac で共有
 
-tmux を使うと、iPhone と Mac で同じターミナルセッションを共有できます。
+tmuxを使うと、iPhoneとMacで同じターミナルセッションを共有できます。
 
 1. **セッションを開始する（どちらかのデバイスで）:**
 
-   macOS または iPhone から macOS に接続して tmux セッションを作成:
+   macOSまたはiPhoneからmacOSに接続してtmuxセッションを作成：
 
    ```bash
    tmux new -s dev
    ```
 
 2. **もう一方のデバイスから参加する:**
-   - iPhone の場合: SSH クライアントで `mac` ホストをタップして接続
-   - Mac の場合: ターミナルで `ssh <Tailscale IP>` または `mosh <Tailscale IP>` で接続
+   - iPhoneの場合： SSHクライアントで `mac` ホストをタップして接続
+   - Macの場合： ターミナルで `ssh <Tailscale IP>` または `mosh <Tailscale IP>` で接続
 
-   接続後、以下のコマンドで同じセッションに参加:
+   接続後、以下のコマンドで同じセッションに参加：
 
    ```bash
    tmux attach -t dev
@@ -346,7 +346,7 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 3. **同期された画面:**
 
    どちらのデバイスで入力しても、両方の画面に即座に反映されます。
-   これにより、iPhone で作業を開始し、Mac で続きを行う、といった使い方が可能です。
+   これにより、iPhoneで作業を開始し、Macで続きを行う、といった使い方が可能です。
 
 ## トラブルシューティング
 
@@ -356,13 +356,13 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
 **解決方法**:
 
-1. 両デバイスで同じ Tailscale アカウントにログインしているか確認
-2. macOS で Tailscale の接続状態を確認:
+1. 両デバイスで同じTailscaleアカウントにログインしているか確認
+2. macOSでTailscaleの接続状態を確認：
    ```bash
    tailscale status
    ```
-3. macOS でリモートログインが有効になっていることを確認
-4. iPhone の Tailscale アプリで接続状態を確認
+3. macOSでリモートログインが有効になっていることを確認
+4. iPhoneのTailscaleアプリで接続状態を確認
 
 ### SSH で "Permission denied" エラー
 
@@ -370,9 +370,9 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
 **解決方法**:
 
-1. macOS でリモートログインが有効か確認:
+1. macOSでリモートログインが有効か確認：
    - システム設定 > 一般 > 共有 > リモートログイン
-2. 正しいユーザー名を使用しているか確認:
+2. 正しいユーザー名を使用しているか確認：
    ```bash
    # macOS で現在のユーザー名を確認
    whoami
@@ -384,11 +384,11 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
 **解決方法**:
 
-1. 既存のセッション一覧を確認:
+1. 既存のセッション一覧を確認：
    ```bash
    tmux ls
    ```
-2. セッションが存在しない場合は新規作成:
+2. セッションが存在しない場合は新規作成：
    ```bash
    tmux new -s dev
    ```
@@ -397,7 +397,7 @@ tmux を使うと、iPhone と Mac で同じターミナルセッションを共
 
 ### code-server のセットアップ
 
-VS Code を iPhone の Safari で使用したい場合:
+VS CodeをiPhoneのSafariで使用したい場合：
 
 ```bash
 # macOS 側で code-server をインストール
@@ -416,34 +416,34 @@ code-server
 
 ## まとめ
 
-お疲れさまでした。これで iPhone から macOS に安全にリモートアクセスし、開発作業ができる環境が整いました。
+お疲れさまでした。これでiPhoneからmacOSに安全にリモートアクセスし、開発作業ができる環境が整いました。
 
-ここまでで構築した環境は、まさに AI 時代の開発スタイル――モバイルで、常時接続で、途切れないという開発環境を実現できるはずです。
-Tailscale の安全な VPN 接続、Shellfish のバックグラウンド SSH 維持機能、tmux の共有機能を組み合わせることで、AI ツールとどこからでも共同作業が可能になります。
+ここまでで構築した環境は、まさにAI時代の開発スタイル――モバイルで、常時接続で、途切れないという開発環境を実現できるはずです。
+Tailscaleの安全なVPN接続、ShellfishのバックグラウンドSSH維持機能、tmuxの共有機能を組み合わせることで、AIツールとどこからでも共同作業が可能になります。
 
-AI アシスト開発とモバイル中心のワークフローは、生産性の新しい形を提示しています。
+AIアシスト開発とモバイル中心のワークフローは、生産性の新しい形を提示しています。
 通勤中のデバッグ、カフェでのテスト実行、外出先からの即時デプロイ——どの場面でも、途切れずに「開発の流れ」を保つことができます。
 
-セキュリティ設定（Tailscale の 2FA 有効化など）を忘れずに行い、快適なモバイル開発ライフをお楽しみください。
+セキュリティ設定（Tailscaleの2FA有効化など）を忘れずに行い、快適なモバイル開発ライフをお楽しみください。
 
 ---
 
-**免責事項**: この記事の情報は 2025 年 11 月時点のものです。ソフトウェアのバージョンアップや仕様変更により、内容が古くなる可能性があります。最新の情報は各ツールの公式ドキュメントをご確認ください。
+**免責事項**: この記事の情報は2025年11月時点のものです。ソフトウェアのバージョンアップや仕様変更により、内容が古くなる可能性があります。最新の情報は各ツールの公式ドキュメントをご確認ください。
 
 ---
 
-[^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [公式サイト](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025 年アップデート: DECSLRM 対応による tmux 改善
+[^1]: **Shellfish (Secure ShellFish)**: [App Store](https://apps.apple.com/app/ssh-client-secure-shellfish/id1336634154) | [公式サイト](https://secureshellfish.app/) | MacStories "Secure ShellFish Review" (2019) | 2025年アップデート： DECSLRM対応によるtmux改善
 
-[^2]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [公式サイト](https://termius.com/) | 2025 年 11 月時点での注意: AI ターミナルツール使用時にスクロールバックの問題あり - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
+[^2]: **Termius**: [App Store](https://apps.apple.com/app/termius-terminal-ssh-client/id549039908) | [公式サイト](https://termius.com/) | 2025年11月時点での注意： AIターミナルツール使用時にスクロールバックの問題あり - [GitHub Issue: google-gemini/gemini-cli #10349](https://github.com/google-gemini/gemini-cli/issues/10349)
 
-[^3]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5 年以上 AppStore でトップの開発者ツール
+[^3]: **Blink Shell**: [App Store](https://apps.apple.com/app/blink-shell-build-code/id1594898306) | [公式サイト](https://blink.sh/) | [GitHub](https://github.com/blinksh/blink) | オープンソース、5年以上AppStoreでトップの開発者ツール
 
-[^4]: **Terminal Type 設定**: tmux-256color vs screen-256color については、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムで tmux-256color が推奨されています。
+[^4]: **Terminal Type 設定**: tmux-256color vs screen-256colorについては、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムでtmux-256colorが推奨されています。
 
-[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) (2025 年 6 月) - 推奨: "big scrollback buffer" for Claude Code | 関連: [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmux の統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code 対応の実践的な dotfiles
+[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) （2025年6月） - 推奨： "big scrollback buffer" for Claude Code | 関連： [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmuxの統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code対応の実践的なdotfiles
 
-[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) (2024年9月27日、3.5a は2024年10月5日) | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **注**: 最新版は tmux 3.6
+[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) （2024年9月27日、3.5aは2024年10月5日） | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **注**: 最新版はtmux 3.6
 
-[^7]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | Blink Shell などで Mosh を使用する場合の参考情報
+[^7]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | Blink ShellなどでMoshを使用する場合の参考情報
 
 [^8]: **Tailscale 公式**: [公式サイト](https://tailscale.com/) | [セキュリティベストプラクティス](https://tailscale.com/kb/) | [管理コンソール](https://login.tailscale.com/admin)

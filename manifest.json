@@ -90,6 +90,20 @@
       ]
     },
     {
+      "filename": "what-is-ai-agent-workflow.md",
+      "slug": "what-is-ai-agent-workflow",
+      "title": "What is an AI Agent Workflow?",
+      "description": "My perspective on the differences between AI agents and LLMs, the concept of AI agent workflows, building tools like LangGraph and n8n, handling token limits, mitigating hallucinations, and design/implementation considerations based on practical experience",
+      "publishedAt": "2026-01-22T12:00:00.000Z",
+      "updatedAt": "2026-01-22T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "LLM",
+        "AI Agent",
+        "Workflow Automation"
+      ]
+    },
+    {
       "filename": "what-is-the-best-way-to-start-building-react-apps-in-2023.md",
       "slug": "what-is-the-best-way-to-start-building-react-apps-in-2023",
       "title": "What is The best way to start building React apps in 2023",
@@ -107,7 +121,7 @@
       "filename": "ai-driven-development-approach-december-2025.md",
       "slug": "ai-driven-development-approach-december-2025",
       "title": "2025年12月時点における私のAI駆動開発の活用方法 - 「仕様書駆動開発」編",
-      "description": "2025年12月現在のAI駆動開発の活用方法と課題に関する私見。 特に「仕様書駆動開発」の手法について詳述します。",
+      "description": "2025年12月現在のAI駆動開発の活用方法・「仕様書駆動開発」とその課題に関する私見",
       "publishedAt": "2025-12-18T12:00:00.000Z",
       "updatedAt": "2025-12-18T12:00:00.000Z",
       "tags": [
@@ -121,7 +135,7 @@
       "filename": "ai-driven-development-approach-may-2025.md",
       "slug": "ai-driven-development-approach-may-2025",
       "title": "2025年5月時点における私のAI駆動開発の活用方法",
-      "description": "2025年5月現在、AI駆動開発に関する知見。Cursor、Claude、MCPなどのツールの紹介と、今後の展望などに関する私見。",
+      "description": "2025年5月現在、AIを使ったソフトウェア開発、Cursor、Claude、MCPなどのツールの紹介と、今後の展望などに関する私見",
       "publishedAt": "2025-05-13T12:00:00.000Z",
       "updatedAt": "2025-12-01T12:00:00.000Z",
       "tags": [
@@ -133,7 +147,7 @@
       "filename": "ai-growth-and-software-dev-future-in-2024.md",
       "slug": "ai-growth-and-software-dev-future-in-2024",
       "title": "2024年の振り返り——AIの指数関数的な発達とソフトウェア開発の未来",
-      "description": "2024年におけるAIの指数関数的な発達を振り返り、それがもたらすソフトウェア開発の変革と未来への展望についての考察。",
+      "description": "2024年におけるAIの指数関数的な発達の振り返り - ソフトウェア開発の変革と未来への展望についての考察",
       "publishedAt": "2024-12-29T15:00:00.000Z",
       "updatedAt": "2024-12-29T15:00:00.000Z",
       "tags": [
@@ -145,7 +159,7 @@
       "filename": "built-blog-with-nextjs-and-payload.md",
       "slug": "built-blog-with-nextjs-and-payload",
       "title": "Next.js App RouterとPayload CMS を使ってブログを構築した",
-      "description": "Next.jsのApp RouterとPayload CMSを使ってどのように本ブログを構築しているかについて紹介したいと思います。",
+      "description": "Next.jsのApp RouterとPayload CMSを使ってどのように本ブログを構築しているかについて",
       "publishedAt": "2024-01-25T15:00:00.000Z",
       "updatedAt": "2024-01-25T15:00:00.000Z",
       "tags": [
@@ -158,7 +172,7 @@
       "filename": "iphone-macos-remote-development-tailscale-shellfish-tmux.md",
       "slug": "iphone-macos-remote-development-tailscale-shellfish-tmux",
       "title": "AI時代のiPhoneからmacOSへのリモート開発：Tailscale + Shellfish + tmux",
-      "description": "Claude Code などの AI ツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）",
+      "description": "Claude CodeなどのAIツールに最適化された、外出先の iPhone から macOS に安全にリモートアクセスして快適な開発作業を可能にする環境構築ガイド（2025年11月更新版）",
       "publishedAt": "2025-11-01T12:00:00.000Z",
       "updatedAt": "2025-12-03T12:00:00.000Z",
       "tags": [
@@ -172,7 +186,7 @@
       "filename": "japanese-engineer-experience-australian-company.md",
       "slug": "japanese-engineer-experience-australian-company",
       "title": "オーストラリアのローカルなIT企業での経験：日本人エンジニアが感じた文化の違い",
-      "description": "オーストラリアのローカルなIT企業で働いた日本人ソフトウェアエンジニアとして、文化の違い、ワーク・ライフ・バランス、グローバルな職場環境について感じたことを書いていきます。",
+      "description": "オーストラリアのローカルなIT企業で働いた日本人ソフトウェアエンジニアとして、文化の違い、ワーク・ライフ・バランス、グローバルな職場環境について感じたことを書いておく場所",
       "publishedAt": "2024-10-04T15:00:00.000Z",
       "updatedAt": "2024-10-04T15:00:00.000Z",
       "tags": [
@@ -193,10 +207,24 @@
       ]
     },
     {
+      "filename": "what-is-ai-agent-workflow.md",
+      "slug": "what-is-ai-agent-workflow",
+      "title": "AIエージェント・ワークフロー（AI Agent Workflow）とは何か",
+      "description": "AIエージェントとLLMの違い、AIエージェント・ワークフローの概念、LangGraphやn8nなどの構築ツール、トークン制限への対処法やハルシネーション対策など、実務経験に基づいた設計・実装のポイントに関する私見",
+      "publishedAt": "2026-01-22T12:00:00.000Z",
+      "updatedAt": "2026-01-22T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "LLM",
+        "AI Agent",
+        "Workflow Automation"
+      ]
+    },
+    {
       "filename": "what-is-the-best-way-to-start-building-react-apps-in-2023.md",
       "slug": "what-is-the-best-way-to-start-building-react-apps-in-2023",
-      "title": "2023 年におけるReactを使った開発の最適なライブラリ・フレームワークは何か",
-      "description": "Next.js・Remix・CRA・Vite・Gatsbyなどの比較も交え、2023 年時点でのReactを使った開発の最適なライブラリ・フレームワークは何かについての私見。",
+      "title": "2023年におけるReactを使った開発の最適なライブラリ・フレームワークは何か",
+      "description": "Next.js・Remix・CRA・Vite・Gatsbyなどの比較も交え、2023年時点でのReactを使った開発の最適なライブラリ・フレームワークは何かについての私見",
       "publishedAt": "2023-12-10T15:00:00.000Z",
       "updatedAt": "2023-12-10T15:00:00.000Z",
       "tags": [
