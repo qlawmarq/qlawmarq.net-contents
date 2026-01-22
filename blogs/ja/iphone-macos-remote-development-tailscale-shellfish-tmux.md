@@ -440,9 +440,9 @@ AIアシスト開発とモバイル中心のワークフローは、生産性の
 
 [^4]: **Terminal Type 設定**: tmux-256color vs screen-256colorについては、コミュニティで広く議論されています。[Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux)、[Stack Overflow](https://stackoverflow.com/questions/10158508/lose-vim-colorscheme-in-tmux) など複数のフォーラムでtmux-256colorが推奨されています。
 
-[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/) （2025年6月） - 推奨： "big scrollback buffer" for Claude Code | 関連： [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmuxの統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code対応の実践的なdotfiles
+[^5]: [Brian P. Hogan "Working with Claude Code"](https://bphogan.com/2025/06/19/2025-06-19-claude-code-tips/)（2025年6月）- 推奨： "big scrollback buffer" for Claude Code | 関連： [pchalasani/claude-code-tools](https://github.com/pchalasani/claude-code-tools) - Claude Code + tmuxの統合ツール | [ooloth/dotfiles](https://github.com/ooloth/dotfiles) - Claude Code対応の実践的なdotfiles
 
-[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES) （2024年9月27日、3.5aは2024年10月5日） | [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **注**: 最新版はtmux 3.6
+[^6]: **tmux 公式**: [tmux Wiki](https://github.com/tmux/tmux/wiki) | [tmux 3.5 リリースノート](https://github.com/tmux/tmux/blob/master/CHANGES)（2024年9月27日、3.5aは2024年10月5日）| [tmux FAQ](https://github.com/tmux/tmux/wiki/FAQ) | **注**: 最新版はtmux 3.6
 
 [^7]: **Mosh 公式**: [公式サイト](https://mosh.org/) | [GitHub リポジトリ](https://github.com/mobile-shell/mosh) | Blink ShellなどでMoshを使用する場合の参考情報
 
