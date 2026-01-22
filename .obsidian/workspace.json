@@ -56,9 +56,33 @@
               "icon": "lucide-book-up",
               "title": "Release Notes 1.10.6"
             }
+          },
+          {
+            "id": "cd52abc6317b6043",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.4"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.11.4"
+            }
+          },
+          {
+            "id": "ad9317c455ffff63",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.5"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.11.5"
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -217,7 +241,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "37055fa51a58200a",
+  "active": "ad9317c455ffff63",
   "lastOpenFiles": [
     "blogs/ja/iphone-macos-remote-development-tmux-tailscale-mosh.md",
     "blogs/en/iphone-macos-remote-development-tmux-tailscale-mosh.md",
