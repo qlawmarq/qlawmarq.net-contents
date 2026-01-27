@@ -90,6 +90,20 @@
       ]
     },
     {
+      "filename": "what-is-agentic-workflow.md",
+      "slug": "what-is-agentic-workflow",
+      "title": "What is an AI Agent Workflow?",
+      "description": "Exploring AI agent workflows: differences from LLMs, building tools like LangGraph and n8n, token limit handling, and hallucination countermeasures",
+      "publishedAt": "2026-01-22T12:00:00.000Z",
+      "updatedAt": "2026-01-27T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "LLM",
+        "AI Agent",
+        "Workflow Automation"
+      ]
+    },
+    {
       "filename": "what-is-the-best-way-to-start-building-react-apps-in-2023.md",
       "slug": "what-is-the-best-way-to-start-building-react-apps-in-2023",
       "title": "What is The best way to start building React apps in 2023",
@@ -190,6 +204,20 @@
       "updatedAt": "2025-03-24T15:00:00.000Z",
       "tags": [
         "Software Development"
+      ]
+    },
+    {
+      "filename": "what-is-agentic-workflow.md",
+      "slug": "what-is-agentic-workflow",
+      "title": "AI エージェント・ワークフロー（AI Agent Workflow）とは何か",
+      "description": "AI エージェントとLLMの違い、AI エージェント・ワークフローの概念、LangGraphやn8nなどの構築ツール、トークン制限への対処法やハルシネーション対策など、実務経験に基づいた設計・実装のポイントに関する私見",
+      "publishedAt": "2026-01-22T12:00:00.000Z",
+      "updatedAt": "2026-01-27T12:00:00.000Z",
+      "tags": [
+        "AI",
+        "LLM",
+        "AI Agent",
+        "Workflow Automation"
       ]
     },
     {
