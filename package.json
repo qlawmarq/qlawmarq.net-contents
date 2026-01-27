@@ -1,0 +1,17 @@
+{
+  "name": "contents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint:fix": "textlint --fix **/*.md"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "textlint": "^15.5.1",
+    "textlint-rule-preset-jtf-style": "^3.0.3"
+  }
+}

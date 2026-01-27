@@ -243,6 +243,12 @@
   },
   "active": "21f68803223339cd",
   "lastOpenFiles": [
+    "node_modules",
+    "conflict-files-obsidian-git.md",
+    "pnpm-lock.yaml",
+    "package.json",
+    "blogs/ja/what-is-ai-agent-workflow.md",
+    "blogs/en/what-is-ai-agent-workflow.md",
     "blogs/en/what-is-agentic-workflow.md",
     "blogs/ja/iphone-macos-remote-development-tmux-tailscale-mosh.md",
     "blogs/en/iphone-macos-remote-development-tmux-tailscale-mosh.md",

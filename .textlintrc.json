@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "preset-jtf-style": {
+      "3.1.1.全角と半角の間": true
+    }
+  }
+}
