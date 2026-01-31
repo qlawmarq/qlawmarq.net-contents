@@ -244,6 +244,24 @@
       "tags": []
     },
     {
+      "filename": "copyright.md",
+      "slug": "copyright",
+      "title": "Copyright - Qlawmarq.net",
+      "description": "Copyright information for this website",
+      "publishedAt": "2025-01-31T15:00:00.000Z",
+      "updatedAt": "2025-01-31T15:00:00.000Z",
+      "tags": []
+    },
+    {
+      "filename": "disclaimer.md",
+      "slug": "disclaimer",
+      "title": "Disclaimer - Qlawmarq.net",
+      "description": "Disclaimer for this website",
+      "publishedAt": "2025-01-31T15:00:00.000Z",
+      "updatedAt": "2025-01-31T15:00:00.000Z",
+      "tags": []
+    },
+    {
       "filename": "privacy-policy.md",
       "slug": "privacy-policy",
       "title": "Privacy Policy - Qlawmarq.net",
@@ -261,6 +279,24 @@
       "description": "当ウェブサイトの著者について",
       "publishedAt": "2023-12-30T15:00:00.000Z",
       "updatedAt": "2023-12-30T15:00:00.000Z",
+      "tags": []
+    },
+    {
+      "filename": "copyright.md",
+      "slug": "copyright",
+      "title": "著作権 - Qlawmarq.net",
+      "description": "当ウェブサイトのコンテンツの著作権について",
+      "publishedAt": "2025-01-31T15:00:00.000Z",
+      "updatedAt": "2025-01-31T15:00:00.000Z",
+      "tags": []
+    },
+    {
+      "filename": "disclaimer.md",
+      "slug": "disclaimer",
+      "title": "免責事項 - Qlawmarq.net",
+      "description": "当ウェブサイトの免責事項について",
+      "publishedAt": "2025-01-31T15:00:00.000Z",
+      "updatedAt": "2025-01-31T15:00:00.000Z",
       "tags": []
     },
     {
