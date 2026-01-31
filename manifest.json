@@ -242,6 +242,15 @@
       "publishedAt": "2023-12-30T15:00:00.000Z",
       "updatedAt": "2023-12-30T15:00:00.000Z",
       "tags": []
+    },
+    {
+      "filename": "privacy-policy.md",
+      "slug": "privacy-policy",
+      "title": "Privacy Policy - Qlawmarq.net",
+      "description": "Privacy policy for this website",
+      "publishedAt": "2026-01-31T15:00:00.000Z",
+      "updatedAt": "2026-01-31T15:00:00.000Z",
+      "tags": []
     }
   ],
   "pages/ja": [
@@ -252,6 +261,15 @@
       "description": "当ウェブサイトの著者について",
       "publishedAt": "2023-12-30T15:00:00.000Z",
       "updatedAt": "2023-12-30T15:00:00.000Z",
+      "tags": []
+    },
+    {
+      "filename": "privacy-policy.md",
+      "slug": "privacy-policy",
+      "title": "プライバシーポリシー - Qlawmarq.net",
+      "description": "当ウェブサイトのプライバシーポリシーについて",
+      "publishedAt": "2026-01-31T15:00:00.000Z",
+      "updatedAt": "2026-01-31T15:00:00.000Z",
       "tags": []
     }
   ]
